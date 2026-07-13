@@ -2,7 +2,6 @@
 import { RestaurantResponse } from "@/client-services";
 import { useGetAllRestaurants } from "@/hooks/services/restaurants/useGetAllRestaurants";
 import Link from "next/link";
-import React from "react";
 
 const Page = () => {
   const { data, isLoading, error } = useGetAllRestaurants();
@@ -20,7 +19,6 @@ const Page = () => {
             >
               <div className="border rounded-sm p-4 w-full bg-green-600">
                 {restaurant.name}
-                <pre>{JSON.stringify(restaurant, null, 2)}</pre>
               </div>
             </Link>
           ))}

@@ -3,4 +3,6 @@ export const QUERY_KEYS = {
   SINGLE_RESTAURANT: "single-restaurant",
   ALL_MENUS: "all-menus",
   SINGLE_MENU: "single-menu",
+
+  PUBLIC_MENU: "public-menu",
 };

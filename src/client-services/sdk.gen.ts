@@ -2,7 +2,7 @@
 
 import { type Client, type ClientMeta, type Options as Options2, type RequestResult, type TDataShape, urlSearchParamsBodySerializer } from './client';
 import { client } from './client.gen';
-import type { CreateMenuApiV1MenusRestaurantIdPostData, CreateMenuApiV1MenusRestaurantIdPostErrors, CreateMenuApiV1MenusRestaurantIdPostResponses, CreateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdPostData, CreateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdPostErrors, CreateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdPostResponses, CreateRestaurantApiV1RestaurantsCreatePostData, CreateRestaurantApiV1RestaurantsCreatePostErrors, CreateRestaurantApiV1RestaurantsCreatePostResponses, CreateSubmenuApiV1SubmenusRestaurantIdMenuIdPostData, CreateSubmenuApiV1SubmenusRestaurantIdMenuIdPostErrors, CreateSubmenuApiV1SubmenusRestaurantIdMenuIdPostResponses, DeleteMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdDeleteData, DeleteMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdDeleteErrors, DeleteMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdDeleteResponses, GetAllUsersApiV1UsersGetData, GetAllUsersApiV1UsersGetResponses, GetMeApiV1AuthGetMeGetData, GetMeApiV1AuthGetMeGetResponses, GetMenuByIdApiV1MenusRestaurantIdMenuIdGetData, GetMenuByIdApiV1MenusRestaurantIdMenuIdGetErrors, GetMenuByIdApiV1MenusRestaurantIdMenuIdGetResponses, GetMenusApiV1MenusRestaurantIdGetData, GetMenusApiV1MenusRestaurantIdGetErrors, GetMenusApiV1MenusRestaurantIdGetResponses, GetQrCodesApiV1QrGetData, GetQrCodesApiV1QrGetResponses, GetQrImageApiV1QrQrIdGetData, GetQrImageApiV1QrQrIdGetErrors, GetQrImageApiV1QrQrIdGetResponses, GetUsersOfRestaurantApiV1RestaurantsRestaurantIdUsersGetData, GetUsersOfRestaurantApiV1RestaurantsRestaurantIdUsersGetErrors, GetUsersOfRestaurantApiV1RestaurantsRestaurantIdUsersGetResponses, ListSubmenusApiV1SubmenusRestaurantIdMenuIdGetData, ListSubmenusApiV1SubmenusRestaurantIdMenuIdGetErrors, ListSubmenusApiV1SubmenusRestaurantIdMenuIdGetResponses, LoginApiV1AuthLoginPostData, LoginApiV1AuthLoginPostErrors, LoginApiV1AuthLoginPostResponses, ReadRestaurantByIdApiV1RestaurantsRestaurantIdGetData, ReadRestaurantByIdApiV1RestaurantsRestaurantIdGetErrors, ReadRestaurantByIdApiV1RestaurantsRestaurantIdGetResponses, ReadRestaurantsApiV1RestaurantsGetData, ReadRestaurantsApiV1RestaurantsGetResponses, RegisterApiV1AuthRegisterPostData, RegisterApiV1AuthRegisterPostErrors, RegisterApiV1AuthRegisterPostResponses, ResolveQrCodeApiV1QrResolveQrCodeGetData, ResolveQrCodeApiV1QrResolveQrCodeGetErrors, ResolveQrCodeApiV1QrResolveQrCodeGetResponses, UpdateMenuApiV1MenusRestaurantIdMenuIdPutData, UpdateMenuApiV1MenusRestaurantIdMenuIdPutErrors, UpdateMenuApiV1MenusRestaurantIdMenuIdPutResponses, UpdateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdPatchData, UpdateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdPatchErrors, UpdateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdPatchResponses, UpdateRestaurantApiV1RestaurantsRestaurantIdPutData, UpdateRestaurantApiV1RestaurantsRestaurantIdPutErrors, UpdateRestaurantApiV1RestaurantsRestaurantIdPutResponses, UpdateSubmenuApiV1SubmenusRestaurantIdMenuIdSubmenuIdPatchData, UpdateSubmenuApiV1SubmenusRestaurantIdMenuIdSubmenuIdPatchErrors, UpdateSubmenuApiV1SubmenusRestaurantIdMenuIdSubmenuIdPatchResponses, VerifyUserApiV1AuthVerifyPostData, VerifyUserApiV1AuthVerifyPostErrors, VerifyUserApiV1AuthVerifyPostResponses } from './types.gen';
+import type { CreateMenuApiV1MenusRestaurantIdPostData, CreateMenuApiV1MenusRestaurantIdPostErrors, CreateMenuApiV1MenusRestaurantIdPostResponses, CreateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdPostData, CreateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdPostErrors, CreateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdPostResponses, CreateRestaurantApiV1RestaurantsCreatePostData, CreateRestaurantApiV1RestaurantsCreatePostErrors, CreateRestaurantApiV1RestaurantsCreatePostResponses, CreateSubmenuApiV1SubmenusRestaurantIdMenuIdPostData, CreateSubmenuApiV1SubmenusRestaurantIdMenuIdPostErrors, CreateSubmenuApiV1SubmenusRestaurantIdMenuIdPostResponses, DeleteMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdDeleteData, DeleteMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdDeleteErrors, DeleteMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdDeleteResponses, DeleteUserApiV1UsersIdDeleteData, DeleteUserApiV1UsersIdDeleteErrors, DeleteUserApiV1UsersIdDeleteResponses, GetAllUsersApiV1UsersGetData, GetAllUsersApiV1UsersGetResponses, GetMeApiV1AuthGetMeGetData, GetMeApiV1AuthGetMeGetResponses, GetMenuByIdApiV1MenusRestaurantIdMenuIdGetData, GetMenuByIdApiV1MenusRestaurantIdMenuIdGetErrors, GetMenuByIdApiV1MenusRestaurantIdMenuIdGetResponses, GetMenusApiV1MenusRestaurantIdGetData, GetMenusApiV1MenusRestaurantIdGetErrors, GetMenusApiV1MenusRestaurantIdGetResponses, GetPublicMenuApiV1MenusPublicCodeGetData, GetPublicMenuApiV1MenusPublicCodeGetErrors, GetPublicMenuApiV1MenusPublicCodeGetResponses, GetQrCodesQGetData, GetQrCodesQGetResponses, GetQrImageQQrIdGetData, GetQrImageQQrIdGetErrors, GetQrImageQQrIdGetResponses, GetUsersOfRestaurantApiV1RestaurantsRestaurantIdUsersGetData, GetUsersOfRestaurantApiV1RestaurantsRestaurantIdUsersGetErrors, GetUsersOfRestaurantApiV1RestaurantsRestaurantIdUsersGetResponses, ListSubmenusApiV1SubmenusRestaurantIdMenuIdGetData, ListSubmenusApiV1SubmenusRestaurantIdMenuIdGetErrors, ListSubmenusApiV1SubmenusRestaurantIdMenuIdGetResponses, LoginApiV1AuthLoginPostData, LoginApiV1AuthLoginPostErrors, LoginApiV1AuthLoginPostResponses, ReadRestaurantByIdApiV1RestaurantsRestaurantIdGetData, ReadRestaurantByIdApiV1RestaurantsRestaurantIdGetErrors, ReadRestaurantByIdApiV1RestaurantsRestaurantIdGetResponses, ReadRestaurantsApiV1RestaurantsGetData, ReadRestaurantsApiV1RestaurantsGetResponses, RegisterApiV1AuthRegisterPostData, RegisterApiV1AuthRegisterPostErrors, RegisterApiV1AuthRegisterPostResponses, ResolveQrCodeQrQrCodeGetData, ResolveQrCodeQrQrCodeGetErrors, ResolveQrCodeQrQrCodeGetResponses, UpdateMenuApiV1MenusRestaurantIdMenuIdPutData, UpdateMenuApiV1MenusRestaurantIdMenuIdPutErrors, UpdateMenuApiV1MenusRestaurantIdMenuIdPutResponses, UpdateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdPatchData, UpdateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdPatchErrors, UpdateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdPatchResponses, UpdateRestaurantApiV1RestaurantsRestaurantIdPutData, UpdateRestaurantApiV1RestaurantsRestaurantIdPutErrors, UpdateRestaurantApiV1RestaurantsRestaurantIdPutResponses, UpdateSubmenuApiV1SubmenusRestaurantIdMenuIdSubmenuIdPatchData, UpdateSubmenuApiV1SubmenusRestaurantIdMenuIdSubmenuIdPatchErrors, UpdateSubmenuApiV1SubmenusRestaurantIdMenuIdSubmenuIdPatchResponses, VerifyUserApiV1AuthVerifyPostData, VerifyUserApiV1AuthVerifyPostErrors, VerifyUserApiV1AuthVerifyPostResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -51,7 +51,11 @@ export const registerApiV1AuthRegisterPost = <ThrowOnError extends boolean = fal
 export const verifyUserApiV1AuthVerifyPost = <ThrowOnError extends boolean = false>(options: Options<VerifyUserApiV1AuthVerifyPostData, ThrowOnError>): RequestResult<VerifyUserApiV1AuthVerifyPostResponses, VerifyUserApiV1AuthVerifyPostErrors, ThrowOnError> => (options.client ?? client).post<VerifyUserApiV1AuthVerifyPostResponses, VerifyUserApiV1AuthVerifyPostErrors, ThrowOnError>({
     responseType: 'json',
     url: '/api/v1/auth/verify',
-    ...options
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
 });
 
 /**
@@ -71,6 +75,16 @@ export const getAllUsersApiV1UsersGet = <ThrowOnError extends boolean = false>(o
     responseType: 'json',
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/api/v1/users/',
+    ...options
+});
+
+/**
+ * Delete User
+ */
+export const deleteUserApiV1UsersIdDelete = <ThrowOnError extends boolean = false>(options: Options<DeleteUserApiV1UsersIdDeleteData, ThrowOnError>): RequestResult<DeleteUserApiV1UsersIdDeleteResponses, DeleteUserApiV1UsersIdDeleteErrors, ThrowOnError> => (options.client ?? client).delete<DeleteUserApiV1UsersIdDeleteResponses, DeleteUserApiV1UsersIdDeleteErrors, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/users/{id}',
     ...options
 });
 
@@ -129,6 +143,15 @@ export const getUsersOfRestaurantApiV1RestaurantsRestaurantIdUsersGet = <ThrowOn
     responseType: 'json',
     security: [{ scheme: 'bearer', type: 'http' }],
     url: '/api/v1/restaurants/{restaurant_id}/users',
+    ...options
+});
+
+/**
+ * Get Public Menu
+ */
+export const getPublicMenuApiV1MenusPublicCodeGet = <ThrowOnError extends boolean = false>(options: Options<GetPublicMenuApiV1MenusPublicCodeGetData, ThrowOnError>): RequestResult<GetPublicMenuApiV1MenusPublicCodeGetResponses, GetPublicMenuApiV1MenusPublicCodeGetErrors, ThrowOnError> => (options.client ?? client).get<GetPublicMenuApiV1MenusPublicCodeGetResponses, GetPublicMenuApiV1MenusPublicCodeGetErrors, ThrowOnError>({
+    responseType: 'json',
+    url: '/api/v1/menus/public/{code}',
     ...options
 });
 
@@ -259,26 +282,26 @@ export const updateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdPa
 /**
  * Get Qr Codes
  */
-export const getQrCodesApiV1QrGet = <ThrowOnError extends boolean = false>(options?: Options<GetQrCodesApiV1QrGetData, ThrowOnError>): RequestResult<GetQrCodesApiV1QrGetResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetQrCodesApiV1QrGetResponses, unknown, ThrowOnError>({
+export const getQrCodesQGet = <ThrowOnError extends boolean = false>(options?: Options<GetQrCodesQGetData, ThrowOnError>): RequestResult<GetQrCodesQGetResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetQrCodesQGetResponses, unknown, ThrowOnError>({
     responseType: 'json',
-    url: '/api/v1/qr/',
+    url: '/q/',
     ...options
 });
 
 /**
  * Get Qr Image
  */
-export const getQrImageApiV1QrQrIdGet = <ThrowOnError extends boolean = false>(options: Options<GetQrImageApiV1QrQrIdGetData, ThrowOnError>): RequestResult<GetQrImageApiV1QrQrIdGetResponses, GetQrImageApiV1QrQrIdGetErrors, ThrowOnError> => (options.client ?? client).get<GetQrImageApiV1QrQrIdGetResponses, GetQrImageApiV1QrQrIdGetErrors, ThrowOnError>({
+export const getQrImageQQrIdGet = <ThrowOnError extends boolean = false>(options: Options<GetQrImageQQrIdGetData, ThrowOnError>): RequestResult<GetQrImageQQrIdGetResponses, GetQrImageQQrIdGetErrors, ThrowOnError> => (options.client ?? client).get<GetQrImageQQrIdGetResponses, GetQrImageQQrIdGetErrors, ThrowOnError>({
     responseType: 'json',
-    url: '/api/v1/qr/{qr_id}',
+    url: '/q/{qr_id}',
     ...options
 });
 
 /**
  * Resolve Qr Code
  */
-export const resolveQrCodeApiV1QrResolveQrCodeGet = <ThrowOnError extends boolean = false>(options: Options<ResolveQrCodeApiV1QrResolveQrCodeGetData, ThrowOnError>): RequestResult<ResolveQrCodeApiV1QrResolveQrCodeGetResponses, ResolveQrCodeApiV1QrResolveQrCodeGetErrors, ThrowOnError> => (options.client ?? client).get<ResolveQrCodeApiV1QrResolveQrCodeGetResponses, ResolveQrCodeApiV1QrResolveQrCodeGetErrors, ThrowOnError>({
+export const resolveQrCodeQRQrCodeGet = <ThrowOnError extends boolean = false>(options: Options<ResolveQrCodeQrQrCodeGetData, ThrowOnError>): RequestResult<ResolveQrCodeQrQrCodeGetResponses, ResolveQrCodeQrQrCodeGetErrors, ThrowOnError> => (options.client ?? client).get<ResolveQrCodeQrQrCodeGetResponses, ResolveQrCodeQrQrCodeGetErrors, ThrowOnError>({
     responseType: 'json',
-    url: '/api/v1/qr/resolve/{qr_code}',
+    url: '/q/r/{qr_code}',
     ...options
 });

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { Pencil } from "lucide-react";
 
 import {
   Dialog,
@@ -11,26 +12,46 @@ import {
 } from "@/components/ui/dialog";
 
 import { Button } from "@/components/atoms/Button";
+
 import MenuItemForm, {
   MenuItemFormValues,
 } from "@/components/organisms/MenuItemForm";
 
-import { usePostCreateMenuItem } from "@/hooks/services/menuitems/usePostCreateMenuItem";
+import { usePatchUpdateMenuItem } from "@/hooks/services/menuitems/usePatchUpdateMenuItem";
+
+import type { MenuItemResponse } from "@/client-services";
 
 type Props = {
   restaurantId: string;
   menuId: string;
   submenuId: string;
+  item: MenuItemResponse;
 };
 
-export default function AddMenuItemDialog({
+export default function EditMenuItemDialog({
   restaurantId,
   menuId,
   submenuId,
+  item,
 }: Props) {
   const [open, setOpen] = useState(false);
 
-  const { mutateAsync, isPending } = usePostCreateMenuItem();
+  const { mutateAsync, isPending } = usePatchUpdateMenuItem();
+
+  const defaultValues = useMemo<MenuItemFormValues>(
+    () => ({
+      name: item.name,
+      description: item.description ?? "",
+      pricing_type: item.pricing_type ?? "FIXED",
+      is_visible: item.is_visible ?? true,
+      prices:
+        item.prices?.map((price) => ({
+          label: price.label,
+          price: price.price,
+        })) ?? [],
+    }),
+    [item],
+  );
 
   const handleSubmit = async (values: MenuItemFormValues) => {
     await mutateAsync({
@@ -38,6 +59,7 @@ export default function AddMenuItemDialog({
         restaurant_id: restaurantId,
         menu_id: menuId,
         submenu_id: submenuId,
+        menu_item_id: item.id,
       },
       body: {
         name: values.name,
@@ -54,15 +76,21 @@ export default function AddMenuItemDialog({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button size="sm">Add Menu Item</Button>
+        <Button size="icon" variant="outline">
+          <Pencil className="h-4 w-4" />
+        </Button>
       </DialogTrigger>
 
       <DialogContent className="max-w-2xl">
         <DialogHeader>
-          <DialogTitle>Create Menu Item</DialogTitle>
+          <DialogTitle>Edit Menu Item</DialogTitle>
         </DialogHeader>
 
-        <MenuItemForm loading={isPending} onSubmit={handleSubmit} />
+        <MenuItemForm
+          defaultValues={defaultValues}
+          loading={isPending}
+          onSubmit={handleSubmit}
+        />
       </DialogContent>
     </Dialog>
   );

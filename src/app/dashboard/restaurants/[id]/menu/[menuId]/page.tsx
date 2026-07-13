@@ -5,6 +5,11 @@ import { useGetMenuById } from "@/hooks/services/menus/useGetMenuById";
 import { usePostCreateSubMenu } from "@/hooks/services/submenus/usePostCreateSubMenu";
 import AddSubMenuDialog from "@/components/organisms/AddSubMenuDialog";
 import AddMenuItemDialog from "@/components/organisms/AddMenuItemDialog";
+import { Button } from "@/components/atoms/Button";
+import { useDeleteMenuItem } from "@/hooks/services/menuitems/useDeleteMenuItem";
+import { Trash } from "lucide-react";
+import EditMenuItemDialog from "@/components/organisms/EditMenuItemDialog";
+import EditSubMenuDialog from "@/components/organisms/EditSubMenuDialog";
 
 export default function Page() {
   const { id, menuId } = useParams();
@@ -16,6 +21,17 @@ export default function Page() {
 
   const { mutate: createSubMenu, isLoading: isCreatingSubMenu } =
     usePostCreateSubMenu();
+
+  const { mutate: deleteMenuItem, isPending: isDeletingMenuItem } =
+    useDeleteMenuItem();
+
+  if (!id || !menuId) {
+    return (
+      <div className="p-8 text-center text-red-500">
+        Invalid restaurant or menu ID.
+      </div>
+    );
+  }
 
   if (isLoading) {
     return <div className="p-8 text-center">Loading menu...</div>;
@@ -31,7 +47,7 @@ export default function Page() {
     <main className="mx-auto max-w-5xl p-6 space-y-8">
       {/* Header */}
       <AddSubMenuDialog menuId={menuId as string} restaurantId={id as string} />
-      <section className="rounded-xl border bg-white p-6 shadow-sm">
+      <section className=" border bg-indigo-300 p-6 shadow-sm">
         <h1 className="text-3xl font-bold">{data.name}</h1>
 
         {data.description && (
@@ -65,30 +81,75 @@ export default function Page() {
             key={submenu.id}
             className="rounded-xl border bg-white p-6 shadow-sm"
           >
-            <div className="mb-4">
-              <h2 className="text-2xl font-semibold">
-                {submenu.title}{" "}
-                <AddMenuItemDialog
-                  menuId={menuId as string}
-                  restaurantId={id as string}
-                  submenuId={submenu.id as string}
-                />
-              </h2>
+            <div className="mb-4 flex items-start justify-between">
+              <div>
+                <h2 className="text-2xl font-semibold">{submenu.title}</h2>
 
-              {submenu.description && (
-                <p className="mt-1 text-gray-500">{submenu.description}</p>
-              )}
+                {submenu.description && (
+                  <p className="mt-1 text-gray-500">{submenu.description}</p>
+                )}
+              </div>
+
+              <div className="flex items-center gap-2">
+                <EditSubMenuDialog
+                  restaurantId={id as string}
+                  menuId={menuId as string}
+                  submenu={submenu}
+                />
+
+                <AddMenuItemDialog
+                  restaurantId={id as string}
+                  menuId={menuId as string}
+                  submenuId={submenu.id}
+                />
+              </div>
             </div>
 
-            {submenu?.menu_items.length === 0 ? (
+            {submenu?.menu_items?.length === 0 ? (
               <p className="text-sm text-gray-400">No menu items available.</p>
             ) : (
               <div className="space-y-5">
-                {submenu?.menu_items.map((item) => (
+                {submenu?.menu_items?.map((item) => (
                   <div key={item.id} className="rounded-lg border p-4">
                     <div className="flex items-start justify-between">
                       <div>
-                        <h3 className="text-lg font-semibold">{item.name}</h3>
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <h3 className="text-lg font-semibold">
+                              {item.name}
+                            </h3>
+
+                            {item.description && (
+                              <p className="mt-1 text-sm text-gray-500">
+                                {item.description}
+                              </p>
+                            )}
+                          </div>
+
+                          <div className="flex items-center gap-2">
+                            <EditMenuItemDialog
+                              restaurantId={id as string}
+                              menuId={menuId as string}
+                              submenuId={submenu.id}
+                              item={item}
+                            />
+
+                            <Button
+                              type="button"
+                              size="icon"
+                              onClick={() =>
+                                deleteMenuItem({
+                                  restaurant_id: id as string,
+                                  menu_id: menuId as string,
+                                  submenu_id: submenu.id as string,
+                                  menu_item_id: item.id as string,
+                                })
+                              }
+                            >
+                              <Trash className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        </div>
 
                         {item.description && (
                           <p className="mt-1 text-sm text-gray-500">

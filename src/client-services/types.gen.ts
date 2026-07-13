@@ -154,6 +154,12 @@ export type MenuItemPriceUpdate = {
      * Price
      */
     price: number;
+    /**
+     * Is Visible
+     *
+     * Whether the menu item price is visible
+     */
+    is_visible?: boolean | null;
 };
 
 /**
@@ -289,6 +295,53 @@ export type MenuResponse = {
 };
 
 /**
+ * MenuResponsePublic
+ */
+export type MenuResponsePublic = {
+    /**
+     * Id
+     */
+    id: string;
+    /**
+     * Created At
+     */
+    created_at: string;
+    /**
+     * Updated At
+     */
+    updated_at: string;
+    /**
+     * Name
+     *
+     * The name of the menu
+     */
+    name: string;
+    /**
+     * Description
+     *
+     * A description of the menu
+     */
+    description?: string | null;
+    /**
+     * Is Visible
+     *
+     * Whether the menu is visible
+     */
+    is_visible?: boolean | null;
+    /**
+     * The QR code associated with this menu
+     */
+    qr?: QrResponse | null;
+    restaurant: RestaurantResponse;
+    /**
+     * Submenus
+     *
+     * List of submenus
+     */
+    submenus?: Array<SubMenuResponse>;
+};
+
+/**
  * MenuResponseWithRestaurant
  */
 export type MenuResponseWithRestaurant = {
@@ -397,6 +450,40 @@ export type MenuUpdate = {
      * Whether the menu is visible
      */
     is_visible?: boolean | null;
+};
+
+/**
+ * OTPResponse
+ */
+export type OtpResponse = {
+    /**
+     * Id
+     */
+    id: string;
+    /**
+     * Created At
+     */
+    created_at: string;
+    /**
+     * Updated At
+     */
+    updated_at: string;
+    /**
+     * Code
+     */
+    code: string;
+    /**
+     * Purpose
+     */
+    purpose: string;
+    /**
+     * Expires At
+     */
+    expires_at: string;
+    /**
+     * Is Used
+     */
+    is_used?: boolean | null;
 };
 
 /**
@@ -654,29 +741,17 @@ export type UserResponse = {
      */
     updated_at: string;
     /**
-     * Email
+     * Name
      */
-    email: string | string;
+    name: string;
     /**
      * First Name
      */
     first_name?: string | null;
     /**
-     * Last Name
+     * Email
      */
-    last_name?: string | null;
-    /**
-     * Middle Name
-     */
-    middle_name?: string | null;
-    /**
-     * Password
-     */
-    password: string;
-    /**
-     * Name
-     */
-    name: string;
+    email: string | string;
     /**
      * Is Verified
      */
@@ -685,6 +760,56 @@ export type UserResponse = {
      * Status
      */
     status?: string | null;
+};
+
+/**
+ * UserUnrestrictedResponse
+ */
+export type UserUnrestrictedResponse = {
+    /**
+     * Id
+     */
+    id: string;
+    /**
+     * Created At
+     */
+    created_at: string;
+    /**
+     * Updated At
+     */
+    updated_at: string;
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * First Name
+     */
+    first_name?: string | null;
+    /**
+     * Email
+     */
+    email: string | string;
+    /**
+     * Is Verified
+     */
+    is_verified?: boolean | null;
+    /**
+     * Status
+     */
+    status?: string | null;
+    /**
+     * Middle Name
+     */
+    middle_name?: string | null;
+    /**
+     * Last Name
+     */
+    last_name?: string | null;
+    /**
+     * Otps
+     */
+    otps?: Array<OtpResponse> | null;
 };
 
 /**
@@ -713,6 +838,20 @@ export type ValidationError = {
     ctx?: {
         [key: string]: unknown;
     };
+};
+
+/**
+ * VerifyEmailPayload
+ */
+export type VerifyEmailPayload = {
+    /**
+     * Otp
+     */
+    otp: string;
+    /**
+     * Email
+     */
+    email: string;
 };
 
 export type LoginApiV1AuthLoginPostData = {
@@ -762,14 +901,9 @@ export type RegisterApiV1AuthRegisterPostResponses = {
 };
 
 export type VerifyUserApiV1AuthVerifyPostData = {
-    body?: never;
+    body: VerifyEmailPayload;
     path?: never;
-    query: {
-        /**
-         * Email
-         */
-        email: string;
-    };
+    query?: never;
     url: '/api/v1/auth/verify';
 };
 
@@ -786,8 +920,10 @@ export type VerifyUserApiV1AuthVerifyPostResponses = {
     /**
      * Successful Response
      */
-    200: unknown;
+    200: UserResponse;
 };
+
+export type VerifyUserApiV1AuthVerifyPostResponse = VerifyUserApiV1AuthVerifyPostResponses[keyof VerifyUserApiV1AuthVerifyPostResponses];
 
 export type GetMeApiV1AuthGetMeGetData = {
     body?: never;
@@ -816,10 +952,40 @@ export type GetAllUsersApiV1UsersGetResponses = {
      *
      * Successful Response
      */
-    200: Array<UserResponse>;
+    200: Array<UserUnrestrictedResponse>;
 };
 
 export type GetAllUsersApiV1UsersGetResponse = GetAllUsersApiV1UsersGetResponses[keyof GetAllUsersApiV1UsersGetResponses];
+
+export type DeleteUserApiV1UsersIdDeleteData = {
+    body?: never;
+    path: {
+        /**
+         * Id
+         */
+        id: string;
+    };
+    query?: never;
+    url: '/api/v1/users/{id}';
+};
+
+export type DeleteUserApiV1UsersIdDeleteErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type DeleteUserApiV1UsersIdDeleteError = DeleteUserApiV1UsersIdDeleteErrors[keyof DeleteUserApiV1UsersIdDeleteErrors];
+
+export type DeleteUserApiV1UsersIdDeleteResponses = {
+    /**
+     * Successful Response
+     */
+    200: UserResponse;
+};
+
+export type DeleteUserApiV1UsersIdDeleteResponse = DeleteUserApiV1UsersIdDeleteResponses[keyof DeleteUserApiV1UsersIdDeleteResponses];
 
 export type ReadRestaurantsApiV1RestaurantsGetData = {
     body?: never;
@@ -951,6 +1117,36 @@ export type GetUsersOfRestaurantApiV1RestaurantsRestaurantIdUsersGetResponses = 
      */
     200: unknown;
 };
+
+export type GetPublicMenuApiV1MenusPublicCodeGetData = {
+    body?: never;
+    path: {
+        /**
+         * Code
+         */
+        code: string;
+    };
+    query?: never;
+    url: '/api/v1/menus/public/{code}';
+};
+
+export type GetPublicMenuApiV1MenusPublicCodeGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetPublicMenuApiV1MenusPublicCodeGetError = GetPublicMenuApiV1MenusPublicCodeGetErrors[keyof GetPublicMenuApiV1MenusPublicCodeGetErrors];
+
+export type GetPublicMenuApiV1MenusPublicCodeGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: MenuResponsePublic;
+};
+
+export type GetPublicMenuApiV1MenusPublicCodeGetResponse = GetPublicMenuApiV1MenusPublicCodeGetResponses[keyof GetPublicMenuApiV1MenusPublicCodeGetResponses];
 
 export type GetMenusApiV1MenusRestaurantIdGetData = {
     body?: never;
@@ -1312,21 +1508,21 @@ export type UpdateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdPat
 
 export type UpdateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdPatchResponse = UpdateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdPatchResponses[keyof UpdateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdPatchResponses];
 
-export type GetQrCodesApiV1QrGetData = {
+export type GetQrCodesQGetData = {
     body?: never;
     path?: never;
     query?: never;
-    url: '/api/v1/qr/';
+    url: '/q/';
 };
 
-export type GetQrCodesApiV1QrGetResponses = {
+export type GetQrCodesQGetResponses = {
     /**
      * Successful Response
      */
     200: unknown;
 };
 
-export type GetQrImageApiV1QrQrIdGetData = {
+export type GetQrImageQQrIdGetData = {
     body?: never;
     path: {
         /**
@@ -1335,26 +1531,26 @@ export type GetQrImageApiV1QrQrIdGetData = {
         qr_id: string;
     };
     query?: never;
-    url: '/api/v1/qr/{qr_id}';
+    url: '/q/{qr_id}';
 };
 
-export type GetQrImageApiV1QrQrIdGetErrors = {
+export type GetQrImageQQrIdGetErrors = {
     /**
      * Validation Error
      */
     422: HttpValidationError;
 };
 
-export type GetQrImageApiV1QrQrIdGetError = GetQrImageApiV1QrQrIdGetErrors[keyof GetQrImageApiV1QrQrIdGetErrors];
+export type GetQrImageQQrIdGetError = GetQrImageQQrIdGetErrors[keyof GetQrImageQQrIdGetErrors];
 
-export type GetQrImageApiV1QrQrIdGetResponses = {
+export type GetQrImageQQrIdGetResponses = {
     /**
      * Successful Response
      */
     200: unknown;
 };
 
-export type ResolveQrCodeApiV1QrResolveQrCodeGetData = {
+export type ResolveQrCodeQrQrCodeGetData = {
     body?: never;
     path: {
         /**
@@ -1363,19 +1559,19 @@ export type ResolveQrCodeApiV1QrResolveQrCodeGetData = {
         qr_code: string;
     };
     query?: never;
-    url: '/api/v1/qr/resolve/{qr_code}';
+    url: '/q/r/{qr_code}';
 };
 
-export type ResolveQrCodeApiV1QrResolveQrCodeGetErrors = {
+export type ResolveQrCodeQrQrCodeGetErrors = {
     /**
      * Validation Error
      */
     422: HttpValidationError;
 };
 
-export type ResolveQrCodeApiV1QrResolveQrCodeGetError = ResolveQrCodeApiV1QrResolveQrCodeGetErrors[keyof ResolveQrCodeApiV1QrResolveQrCodeGetErrors];
+export type ResolveQrCodeQrQrCodeGetError = ResolveQrCodeQrQrCodeGetErrors[keyof ResolveQrCodeQrQrCodeGetErrors];
 
-export type ResolveQrCodeApiV1QrResolveQrCodeGetResponses = {
+export type ResolveQrCodeQrQrCodeGetResponses = {
     /**
      * Successful Response
      */

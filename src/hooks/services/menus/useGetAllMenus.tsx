@@ -11,7 +11,7 @@ type Payload = PathOf<GetMenusApiV1MenusRestaurantIdGetData>;
 
 export const useGetAllMenus = ({ restaurant_id }: Payload) => {
   return useQuery<MenuResponseWithRestaurant[] | null | undefined>({
-    queryKey: [QUERY_KEYS.ALL_MENUS],
+    queryKey: [QUERY_KEYS.ALL_MENUS, restaurant_id],
     enabled: !!restaurant_id,
     queryFn: async () => {
       const response = await getMenusApiV1MenusRestaurantIdGet({
