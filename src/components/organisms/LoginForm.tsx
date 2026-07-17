@@ -22,6 +22,7 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import FormInputItem from "@/components/molecules/FormInputItem";
 
 // 1. Define the validation schema
 const loginSchema = z.object({
@@ -41,7 +42,7 @@ export function LoginForm({
 
   // 3. Initialize React Hook Form
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm<LoginSchemaType>({
@@ -83,92 +84,64 @@ export function LoginForm({
   };
 
   return (
-    <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <Card>
-        <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
-          <CardDescription>
-            Enter your email below to login to your account
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          {/* 5. Attach handleSubmit to form */}
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <FieldGroup>
-              <Field>
-                <FieldLabel htmlFor="email">Email</FieldLabel>
-                {/* 6. Register fields to track state */}
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  {...register("email")}
-                />
-                {/* 7. Display Zod error alerts if present */}
-                {errors.email && (
-                  <p className="text-sm font-medium text-destructive mt-1">
-                    {errors.email.message}
-                  </p>
-                )}
-              </Field>
-              <Field>
-                <div className="flex items-center">
-                  <FieldLabel htmlFor="password">Password</FieldLabel>
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
-                  >
-                    Forgot your password?
-                  </a>
-                </div>
-                <Input
-                  id="password"
-                  type="password"
-                  {...register("password")}
-                />
-                {errors.password && (
-                  <p className="text-sm font-medium text-destructive mt-1">
-                    {errors.password.message}
-                  </p>
-                )}
-              </Field>
+    <Card className={cn("w-full max-w-sm", className)} {...props}>
+      <CardHeader>
+        <CardTitle>Login to your account</CardTitle>
+        <CardDescription>
+          Enter your email below to login to your account
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        {/* 5. Attach handleSubmit to form */}
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <FieldGroup>
+            <FormInputItem
+              control={control}
+              name="email"
+              label="Email"
+              placeholder="m@example.com"
+              type="email"
+            />
 
-              {/* Global API error notification */}
-              {errorMessage && (
-                <p className="text-sm font-medium text-destructive text-center">
-                  {errorMessage}
-                </p>
-              )}
+            <FormInputItem
+              control={control}
+              name="password"
+              label="Password"
+              placeholder="••••••••"
+              type="password"
+            />
 
-              <Field>
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full"
-                >
-                  {isSubmitting ? "Logging in..." : "Login"}
-                </Button>
-                <Button
-                  variant="outline"
-                  type="button"
-                  className="w-full"
-                  onClick={() => {
-                    onSubmit({
-                      email: "user@example.com",
-                      password: "string",
-                    });
-                  }}
-                >
-                  Login with Google
-                </Button>
-                <FieldDescription className="text-center">
-                  Don&apos;t have an account? <a href="#">Sign up</a>
-                </FieldDescription>
-              </Field>
-            </FieldGroup>
-          </form>
-        </CardContent>
-      </Card>
-    </div>
+            {/* Global API error notification */}
+            {errorMessage && (
+              <p className="text-sm font-medium text-destructive text-center">
+                {errorMessage}
+              </p>
+            )}
+
+            <Field>
+              <Button type="submit" disabled={isSubmitting} className="w-full">
+                {isSubmitting ? "Logging in..." : "Login"}
+              </Button>
+              <Button
+                variant="outline"
+                type="button"
+                className="w-full"
+                onClick={() => {
+                  onSubmit({
+                    email: "user@example.com",
+                    password: "string",
+                  });
+                }}
+              >
+                Login with Google
+              </Button>
+              <FieldDescription className="text-center">
+                Don&apos;t have an account? <a href="#">Sign up</a>
+              </FieldDescription>
+            </Field>
+          </FieldGroup>
+        </form>
+      </CardContent>
+    </Card>
   );
 }

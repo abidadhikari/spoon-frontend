@@ -208,6 +208,10 @@ export type MenuItemResponse = {
      * Id
      */
     id: string;
+    /**
+     * Order Index
+     */
+    order_index: number;
 };
 
 /**
@@ -487,6 +491,22 @@ export type OtpResponse = {
 };
 
 /**
+ * OrderIndex
+ */
+export type OrderIndex = {
+    /**
+     * Item Id
+     */
+    item_id: string;
+    /**
+     * Order Index
+     *
+     * The new order index for the item
+     */
+    order_index: number;
+};
+
+/**
  * QRResponse
  */
 export type QrResponse = {
@@ -675,6 +695,10 @@ export type SubMenuResponse = {
      */
     restaurant_id: string;
     /**
+     * Order Index
+     */
+    order_index: number;
+    /**
      * Menu Items
      */
     menu_items?: Array<MenuItemResponse>;
@@ -696,6 +720,18 @@ export type SubMenuUpdate = {
      * Is Visible
      */
     is_visible?: boolean | null;
+};
+
+/**
+ * UpdateOrderIndex
+ */
+export type UpdateOrderIndex = {
+    /**
+     * New Order
+     *
+     * A list of submenu IDs in the new order
+     */
+    new_order: Array<OrderIndex>;
 };
 
 /**
@@ -1348,6 +1384,42 @@ export type CreateSubmenuApiV1SubmenusRestaurantIdMenuIdPostResponses = {
 
 export type CreateSubmenuApiV1SubmenusRestaurantIdMenuIdPostResponse = CreateSubmenuApiV1SubmenusRestaurantIdMenuIdPostResponses[keyof CreateSubmenuApiV1SubmenusRestaurantIdMenuIdPostResponses];
 
+export type UpdateSubmenuOrderApiV1SubmenusRestaurantIdMenuIdOrderPatchData = {
+    body: UpdateOrderIndex;
+    path: {
+        /**
+         * Restaurant Id
+         */
+        restaurant_id: string;
+        /**
+         * Menu Id
+         */
+        menu_id: string;
+    };
+    query?: never;
+    url: '/api/v1/submenus/{restaurant_id}/{menu_id}/order';
+};
+
+export type UpdateSubmenuOrderApiV1SubmenusRestaurantIdMenuIdOrderPatchErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type UpdateSubmenuOrderApiV1SubmenusRestaurantIdMenuIdOrderPatchError = UpdateSubmenuOrderApiV1SubmenusRestaurantIdMenuIdOrderPatchErrors[keyof UpdateSubmenuOrderApiV1SubmenusRestaurantIdMenuIdOrderPatchErrors];
+
+export type UpdateSubmenuOrderApiV1SubmenusRestaurantIdMenuIdOrderPatchResponses = {
+    /**
+     * Response Update Submenu Order Api V1 Submenus  Restaurant Id   Menu Id  Order Patch
+     *
+     * Successful Response
+     */
+    200: Array<SubMenuResponse>;
+};
+
+export type UpdateSubmenuOrderApiV1SubmenusRestaurantIdMenuIdOrderPatchResponse = UpdateSubmenuOrderApiV1SubmenusRestaurantIdMenuIdOrderPatchResponses[keyof UpdateSubmenuOrderApiV1SubmenusRestaurantIdMenuIdOrderPatchResponses];
+
 export type UpdateSubmenuApiV1SubmenusRestaurantIdMenuIdSubmenuIdPatchData = {
     body: SubMenuUpdate;
     path: {
@@ -1423,6 +1495,44 @@ export type CreateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdPostResponses
 };
 
 export type CreateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdPostResponse = CreateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdPostResponses[keyof CreateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdPostResponses];
+
+export type UpdateMenuItemsOrderApiV1MenuItemsRestaurantIdMenuIdSubmenuIdOrderPatchData = {
+    body: UpdateOrderIndex;
+    path: {
+        /**
+         * Restaurant Id
+         */
+        restaurant_id: string;
+        /**
+         * Menu Id
+         */
+        menu_id: string;
+        /**
+         * Submenu Id
+         */
+        submenu_id: string;
+    };
+    query?: never;
+    url: '/api/v1/menu-items/{restaurant_id}/{menu_id}/{submenu_id}/order';
+};
+
+export type UpdateMenuItemsOrderApiV1MenuItemsRestaurantIdMenuIdSubmenuIdOrderPatchErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type UpdateMenuItemsOrderApiV1MenuItemsRestaurantIdMenuIdSubmenuIdOrderPatchError = UpdateMenuItemsOrderApiV1MenuItemsRestaurantIdMenuIdSubmenuIdOrderPatchErrors[keyof UpdateMenuItemsOrderApiV1MenuItemsRestaurantIdMenuIdSubmenuIdOrderPatchErrors];
+
+export type UpdateMenuItemsOrderApiV1MenuItemsRestaurantIdMenuIdSubmenuIdOrderPatchResponses = {
+    /**
+     * Successful Response
+     */
+    200: GenericResponse;
+};
+
+export type UpdateMenuItemsOrderApiV1MenuItemsRestaurantIdMenuIdSubmenuIdOrderPatchResponse = UpdateMenuItemsOrderApiV1MenuItemsRestaurantIdMenuIdSubmenuIdOrderPatchResponses[keyof UpdateMenuItemsOrderApiV1MenuItemsRestaurantIdMenuIdSubmenuIdOrderPatchResponses];
 
 export type DeleteMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdDeleteData = {
     body?: never;
