@@ -5,9 +5,13 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 
 const Page = () => {
-  const { id } = useParams();
-  const { data } = useGetRestaurantById({ restaurant_id: id as string });
-  const { data: menus } = useGetAllMenus({ restaurant_id: id as string });
+  const { restaurantId } = useParams();
+  const { data } = useGetRestaurantById({
+    restaurant_id: restaurantId as string,
+  });
+  const { data: menus } = useGetAllMenus({
+    restaurant_id: restaurantId as string,
+  });
   return (
     <div>
       <section>
@@ -23,7 +27,7 @@ const Page = () => {
           {menus?.map((menu) => (
             <Link
               key={menu.id}
-              href={`/dashboard/restaurants/${id}/menu/${menu.id}`}
+              href={`/dashboard/restaurants/${restaurantId}/menu/${menu.id}`}
               className="block mt-2 border p-4 rounded-md hover:bg-gray-400 "
             >
               <h2 className="text-xl font-semibold">{menu.name}</h2>

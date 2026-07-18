@@ -23,7 +23,6 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import FormInputItem from "@/components/molecules/FormInputItem";
-import Link from "next/link";
 
 // 1. Define the validation schema
 const loginSchema = z.object({
@@ -34,7 +33,7 @@ const loginSchema = z.object({
 // 2. Infer types from schema
 type LoginSchemaType = z.infer<typeof loginSchema>;
 
-export function LoginForm({
+export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
@@ -137,7 +136,7 @@ export function LoginForm({
                 Login with Google
               </Button>
               <FieldDescription className="text-center">
-                Don&apos;t have an account? <Link href="/signup">Sign up</Link>
+                Don&apos;t have an account? <a href="#">Sign up</a>
               </FieldDescription>
             </Field>
           </FieldGroup>

@@ -6,7 +6,7 @@ import React from "react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { data, isLoading } = useGetMe();
-  return <>{children}</>;
+  return <DashboardLayout>{children}</DashboardLayout>;
 };
 
 export default Layout;
