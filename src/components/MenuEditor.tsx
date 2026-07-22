@@ -7,7 +7,7 @@ import SubmenuList from "@/components/SubmenuList";
 import { withMenuItemOrderIndexes, withSubmenuOrderIndexes } from "@/lib/orderIndex";
 import { reorderByClosestEdge } from "@/lib/reorder";
 import { sampleMenu } from "@/lib/sampleData";
-import type { Menu } from "@/types/menu";
+import type { Menu } from "@/types/menu.type";
 
 export default function MenuEditor() {
   const [menu, setMenu] = useState<Menu>(sampleMenu);

@@ -14,7 +14,7 @@ import { GripVertical } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import DropIndicator from "@/components/DropIndicator";
 import { dragTypes, isMenuItemDragData } from "@/lib/dragTypes";
-import type { MenuItem } from "@/types/menu";
+import type { MenuItem } from "@/types/menu.type";
 
 type SortableMenuItemProps = {
   item: MenuItem;

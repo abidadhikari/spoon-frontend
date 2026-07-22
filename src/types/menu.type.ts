@@ -1,3 +1,5 @@
+import { MenuResponsePublic } from "@/client-services/types.gen";
+
 export type MenuItem = {
   id: string;
   name: string;
@@ -16,3 +18,5 @@ export type Menu = {
   name: string;
   submenus: Submenu[];
 };
+
+export type IMenu = MenuResponsePublic;

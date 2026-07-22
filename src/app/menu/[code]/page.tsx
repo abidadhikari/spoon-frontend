@@ -1,7 +1,5 @@
-import TemplateTest, {
-  TemplateTestData,
-} from "@/components/organisms/TemplateTest";
-import TemplateWrapper from "@/components/organisms/TemplateWrapper";
+import RestaurantMenu from "@/components/organisms/RestaurantMenu";
+import { TemplateProvider } from "@/context/TemplateProvider";
 
 type Props = {
   params: Promise<{
@@ -11,5 +9,9 @@ type Props = {
 
 export default async function Page({ params }: Props) {
   const { code } = await params;
-  return <TemplateWrapper code={code} />;
+  return (
+    <TemplateProvider templateId="elegant">
+      <RestaurantMenu code={code} />
+    </TemplateProvider>
+  );
 }

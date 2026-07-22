@@ -3,18 +3,16 @@
 import { buildPriceTable, PriceTable } from "@/lib/build-price-table";
 import { formatPrice } from "@/lib/format-price";
 import { slugify } from "@/lib/slugify";
+import { IMenu } from "@/types/menu.type";
 import { Submenu } from "@/types/public-menu.type";
 import { useMemo, useRef } from "react";
 
-export interface TemplateTestData {
-  name?: string;
-  description?: string;
-  qr?: { code: string };
-  restaurant?: { name?: string; description?: string };
-  submenus: Submenu[];
+interface ClassicProps {
+  menu: IMenu;
 }
 
-export default function Classic({ menu }: { menu: TemplateTestData }) {
+export default function Classic(props: ClassicProps) {
+  const { menu } = props;
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
 
   const visibleSubmenus = useMemo(

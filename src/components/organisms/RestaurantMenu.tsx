@@ -1,9 +1,11 @@
 "use client";
 
-import TemplateTest from "@/components/organisms/TemplateTest";
+import { useTemplate } from "@/context/TemplateProvider";
 import { useGetPublicMenuByQRCode } from "@/hooks/services/public/useGetPublicMenuByQRCode";
 
-const TemplateWrapper = ({ code }: { code: string }) => {
+const RestaurantMenu = ({ code }: { code: string }) => {
+  const { template: Template } = useTemplate();
+
   const { data, isLoading } = useGetPublicMenuByQRCode({ code });
   if (isLoading) {
     return (
@@ -12,7 +14,9 @@ const TemplateWrapper = ({ code }: { code: string }) => {
       </div>
     );
   }
-  return <TemplateTest menu={data || {}} />;
+
+  console.log(data);
+  return <Template menu={data || {}} />;
 };
 
-export default TemplateWrapper;
+export default RestaurantMenu;

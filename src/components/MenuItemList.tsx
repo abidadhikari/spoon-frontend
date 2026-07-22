@@ -2,7 +2,7 @@
 
 import type { Edge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/types";
 import SortableMenuItem from "@/components/SortableMenuItem";
-import type { MenuItem } from "@/types/menu";
+import type { MenuItem } from "@/types/menu.type";
 
 type MenuItemListProps = {
   submenuId: string;

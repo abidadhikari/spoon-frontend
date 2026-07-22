@@ -2,7 +2,7 @@
 
 import type { Edge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/types";
 import SortableSubmenu from "@/components/SortableSubmenu";
-import type { Submenu } from "@/types/menu";
+import type { Submenu } from "@/types/menu.type";
 
 type SubmenuListProps = {
   submenus: Submenu[];

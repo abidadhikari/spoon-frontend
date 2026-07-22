@@ -15,7 +15,7 @@ import { useEffect, useRef, useState } from "react";
 import DropIndicator from "@/components/DropIndicator";
 import MenuItemList from "@/components/MenuItemList";
 import { dragTypes, isSubmenuDragData } from "@/lib/dragTypes";
-import type { Submenu } from "@/types/menu";
+import type { Submenu } from "@/types/menu.type";
 
 type SortableSubmenuProps = {
   submenu: Submenu;

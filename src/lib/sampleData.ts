@@ -1,4 +1,4 @@
-import type { Menu } from "@/types/menu";
+import type { Menu } from "@/types/menu.type";
 
 export const sampleMenu: Menu = {
   id: "menu-brunch",
