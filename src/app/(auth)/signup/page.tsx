@@ -1,9 +1,9 @@
-import React from "react";
+import { SignupForm } from "@/components/organisms/SignupForm";
 
-export default function SignupPage() {
+export default function Page() {
   return (
     <>
-      <h1>Signup 123</h1>
+      <SignupForm />
     </>
   );
 }

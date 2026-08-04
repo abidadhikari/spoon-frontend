@@ -6,16 +6,16 @@ export interface Price {
 export interface MenuItem {
   id?: string;
   name: string;
-  description?: string;
-  pricing_type: "FIXED" | "VARIABLE";
+  description?: string | null;
+  pricing_type?: "FIXED" | "VARIABLE" | string | null;
   is_visible?: boolean;
-  prices: Price[];
+  prices?: Price[];
 }
 
 export interface Submenu {
   id?: string;
   title: string;
-  description?: string;
-  is_visible?: boolean;
+  description?: string | null;
+  is_visible?: boolean | null;
   menu_items: MenuItem[];
 }

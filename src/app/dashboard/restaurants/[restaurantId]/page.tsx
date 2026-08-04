@@ -1,41 +1,106 @@
 "use client";
-import { useGetAllMenus } from "@/hooks/services/menus/useGetAllMenus";
-import { useGetRestaurantById } from "@/hooks/services/restaurants/useGetRestaurantById";
-import Link from "next/link";
+
 import { useParams } from "next/navigation";
 
-const Page = () => {
-  const { restaurantId } = useParams();
-  const { data } = useGetRestaurantById({
-    restaurant_id: restaurantId as string,
-  });
-  const { data: menus } = useGetAllMenus({
-    restaurant_id: restaurantId as string,
-  });
-  return (
-    <div>
-      <section>
-        <h1 className="text-2xl font-bold">Restaurant Details</h1>
-        <div className="mt-4">Name: {data?.name}</div>
-        <div className="mt-4">Description: {data?.description}</div>
-        <div className="mt-4">Menus: {data?.menus?.length}</div>
-      </section>
+import { Metric } from "@/components/atoms/Metric";
+import { Badge } from "@/components/atoms/Badge";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { MenuCard } from "@/components/organisms/MenuCard";
+import { AddMenuDialog } from "@/components/organisms/AddMenuDialog";
+import { useGetRestaurantById } from "@/hooks/services/restaurants/useGetRestaurantById";
+import { useGetAllMenus } from "@/hooks/services/menus/useGetAllMenus";
 
-      <section>
-        <h1 className="text-2xl font-bold mt-8">Restaurant Menus</h1>
-        <div className="mt-4 grid grid-cols-4 gap-4">
-          {menus?.map((menu) => (
-            <Link
-              key={menu.id}
-              href={`/dashboard/restaurants/${restaurantId}/menu/${menu.id}`}
-              className="block mt-2 border p-4 rounded-md hover:bg-gray-400 "
-            >
-              <h2 className="text-xl font-semibold">{menu.name}</h2>
-              <p>{menu.description}</p>
-            </Link>
+const Page = () => {
+  const { restaurantId } = useParams<{ restaurantId: string }>();
+
+  const {
+    data: restaurant,
+    isLoading: isLoadingRestaurant,
+    error: restaurantError,
+    refetch: refetchRestaurant,
+  } = useGetRestaurantById({ restaurant_id: restaurantId });
+
+  const {
+    data: menus,
+    isLoading: isLoadingMenus,
+    error: menusError,
+    refetch: refetchMenus,
+  } = useGetAllMenus({ restaurant_id: restaurantId });
+
+  const isLoading = isLoadingRestaurant || isLoadingMenus;
+  const error = restaurantError ?? menusError;
+
+  return (
+    <div className="space-y-8">
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h1 className="font-heading text-2xl font-semibold">
+            {isLoading ? "Loading..." : restaurant?.name ?? "Restaurant"}
+          </h1>
+          {restaurant && (
+            <div className="mt-2 flex items-center gap-2">
+              <Badge tone="zinc">{restaurant.alias}</Badge>
+              <span className="text-sm text-muted-foreground">
+                {restaurant.description || "No description yet."}
+              </span>
+            </div>
+          )}
+        </div>
+        <AddMenuDialog restaurantId={restaurantId} />
+      </div>
+
+      <div className="grid grid-cols-2 gap-4 sm:max-w-xl">
+        <Metric
+          label="Menus"
+          value={isLoading ? "—" : (menus?.length ?? 0)}
+        />
+      </div>
+
+      {error ? (
+        <div className="rounded-xl border border-dashed p-8 text-center">
+          <p className="text-sm text-muted-foreground">
+            Failed to load menus: {error.message}
+          </p>
+          <Button
+            variant="outline"
+            className="mt-4"
+            onClick={() => {
+              refetchRestaurant();
+              refetchMenus();
+            }}
+          >
+            Try again
+          </Button>
+        </div>
+      ) : isLoading ? (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <div key={index} className="rounded-xl border p-4">
+              <Skeleton className="h-5 w-1/2" />
+              <Skeleton className="mt-3 h-4 w-full" />
+              <Skeleton className="mt-2 h-4 w-2/3" />
+              <Skeleton className="mt-4 h-8 w-24" />
+            </div>
           ))}
         </div>
-      </section>
+      ) : menus && menus.length > 0 ? (
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {menus.map((menu) => (
+            <MenuCard key={menu.id} restaurantId={restaurantId} menu={menu} />
+          ))}
+        </div>
+      ) : (
+        <div className="rounded-xl border border-dashed p-12 text-center">
+          <h3 className="font-heading text-base font-medium">No menus yet</h3>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Create your first menu to start adding submenus and items.
+          </p>
+          <div className="mt-4">
+            <AddMenuDialog restaurantId={restaurantId} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

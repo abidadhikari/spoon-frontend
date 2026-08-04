@@ -17,21 +17,27 @@ export default function Classic(props: ClassicProps) {
 
   const visibleSubmenus = useMemo(
     () =>
-      menu.submenus.filter(
+      (menu.submenus ?? []).filter(
         (sm) =>
           sm.is_visible !== false &&
-          sm.menu_items.some((i) => i.is_visible !== false),
+          (sm.menu_items ?? []).some((i) => i.is_visible !== false),
       ),
     [menu.submenus],
   );
 
   const sections = useMemo(
     () =>
-      visibleSubmenus.map((submenu, idx) => ({
-        id: `${slugify(submenu.title)}-${idx}`,
-        submenu,
-        table: buildPriceTable(submenu),
-      })),
+      visibleSubmenus.map((submenu, idx) => {
+        const normalizedSubmenu = {
+          ...submenu,
+          menu_items: submenu.menu_items ?? [],
+        };
+        return {
+          id: `${slugify(submenu.title)}-${idx}`,
+          submenu: normalizedSubmenu,
+          table: buildPriceTable(normalizedSubmenu),
+        };
+      }),
     [visibleSubmenus],
   );
 

@@ -13,6 +13,7 @@ const eslintConfig = defineConfig([
     "build/**",
     "src/shared/api/generated/**",
     "src/test-generated/**",
+    "src/client-services/**",
     "next-env.d.ts",
   ]),
 ]);

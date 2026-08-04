@@ -2,6 +2,7 @@
 
 import { useTemplate } from "@/context/TemplateProvider";
 import { useGetPublicMenuByQRCode } from "@/hooks/services/public/useGetPublicMenuByQRCode";
+import type { IMenu } from "@/types/menu.type";
 
 const RestaurantMenu = ({ code }: { code: string }) => {
   const { template: Template } = useTemplate();
@@ -15,8 +16,7 @@ const RestaurantMenu = ({ code }: { code: string }) => {
     );
   }
 
-  console.log(data);
-  return <Template menu={data || {}} />;
+  return <Template menu={(data ?? {}) as IMenu} />;
 };
 
 export default RestaurantMenu;

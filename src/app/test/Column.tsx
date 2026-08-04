@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 
 import Card from "./Card";
-import { ColumnType } from "./Board";
+import { CardType, ColumnType } from "./Board";
 
 type Props = {
   column: ColumnType;
@@ -24,7 +24,7 @@ export default function Column({ column, columns, setColumns }: Props) {
         columnId: column.id,
       }),
       onDrop({ source }) {
-        const card = source.data.card;
+        const card = source.data.card as CardType | undefined;
 
         if (!card) return;
 
@@ -47,7 +47,7 @@ export default function Column({ column, columns, setColumns }: Props) {
         });
       },
     });
-  }, [column.id, columns]);
+  }, [column.id, columns, setColumns]);
 
   return (
     <div ref={ref} className="w-72 rounded bg-gray-100 p-4 min-h-[400px]">

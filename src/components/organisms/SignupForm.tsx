@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -15,86 +14,74 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Field,
-  FieldDescription,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
+import { Field, FieldDescription, FieldGroup } from "@/components/ui/field";
 import FormInputItem from "@/components/molecules/FormInputItem";
+import { useRegister } from "@/hooks/services/auth/useRegister";
+import Link from "next/link";
 
-// 1. Define the validation schema
-const loginSchema = z.object({
+const signupSchema = z.object({
   email: z.string().email("Invalid email address"),
+  first_name: z.string().min(1, "First name is required"),
+  last_name: z.string().optional(),
   password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
-// 2. Infer types from schema
-type LoginSchemaType = z.infer<typeof loginSchema>;
+type SignupSchemaType = z.infer<typeof signupSchema>;
 
 export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const navigate = useRouter();
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const { mutateAsync, isPending } = useRegister();
 
-  // 3. Initialize React Hook Form
-  const {
-    control,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<LoginSchemaType>({
-    resolver: zodResolver(loginSchema),
+  const { control, handleSubmit } = useForm<SignupSchemaType>({
+    resolver: zodResolver(signupSchema),
     defaultValues: {
       email: "",
+      first_name: "",
+      last_name: "",
       password: "",
     },
   });
 
-  // 4. API request using form values
-  const onSubmit = async (values: LoginSchemaType) => {
-    try {
-      setErrorMessage(null);
-      const formData = new FormData();
-      // Backend expects 'username' key for your login flow
-      formData.append("username", values.email);
-      formData.append("password", values.password);
-
-      const response = await fetch("http://localhost:8000/api/v1/auth/login", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error("Invalid credentials or server error.");
-      }
-
-      const data = await response.json();
-      localStorage.setItem("access_token", data.access_token);
-
-      navigate.push("/dashboard");
-    } catch (error) {
-      console.error(error);
-      setErrorMessage(
-        error instanceof Error ? error.message : "An error occurred",
-      );
-    }
+  const onSubmit = async (values: SignupSchemaType) => {
+    await mutateAsync({
+      email: values.email,
+      first_name: values.first_name,
+      last_name: values.last_name || undefined,
+      password: values.password,
+    });
+    navigate.push(`/verify?email=${encodeURIComponent(values.email)}`);
   };
 
   return (
     <Card className={cn("w-full max-w-sm", className)} {...props}>
       <CardHeader>
-        <CardTitle>Login to your account</CardTitle>
+        <CardTitle>Create your account</CardTitle>
         <CardDescription>
-          Enter your email below to login to your account
+          Enter your details below to sign up
         </CardDescription>
       </CardHeader>
       <CardContent>
-        {/* 5. Attach handleSubmit to form */}
         <form onSubmit={handleSubmit(onSubmit)}>
           <FieldGroup>
+            <FormInputItem
+              control={control}
+              name="first_name"
+              label="First name"
+              placeholder="John"
+              type="text"
+            />
+
+            <FormInputItem
+              control={control}
+              name="last_name"
+              label="Last name"
+              placeholder="Doe"
+              type="text"
+            />
+
             <FormInputItem
               control={control}
               name="email"
@@ -111,32 +98,13 @@ export function SignupForm({
               type="password"
             />
 
-            {/* Global API error notification */}
-            {errorMessage && (
-              <p className="text-sm font-medium text-destructive text-center">
-                {errorMessage}
-              </p>
-            )}
-
             <Field>
-              <Button type="submit" disabled={isSubmitting} className="w-full">
-                {isSubmitting ? "Logging in..." : "Login"}
-              </Button>
-              <Button
-                variant="outline"
-                type="button"
-                className="w-full"
-                onClick={() => {
-                  onSubmit({
-                    email: "user@example.com",
-                    password: "string",
-                  });
-                }}
-              >
-                Login with Google
+              <Button type="submit" disabled={isPending} className="w-full">
+                {isPending ? "Creating account..." : "Sign up"}
               </Button>
               <FieldDescription className="text-center">
-                Don&apos;t have an account? <a href="#">Sign up</a>
+                Already have an account?{" "}
+                <Link href="/login">Log in</Link>
               </FieldDescription>
             </Field>
           </FieldGroup>

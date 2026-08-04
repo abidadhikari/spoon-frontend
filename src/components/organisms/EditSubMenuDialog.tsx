@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Pencil } from "lucide-react";
 
 import {
@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { Button } from "@/components/atoms/Button";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -37,14 +37,14 @@ export default function EditSubMenuDialog({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [isVisible, setIsVisible] = useState(true);
+  const [prevOpen, setPrevOpen] = useState(open);
 
-  useEffect(() => {
-    if (open) {
-      setTitle(submenu.title);
-      setDescription(submenu.description ?? "");
-      setIsVisible(submenu.is_visible ?? true);
-    }
-  }, [open, submenu]);
+  if (open && open !== prevOpen) {
+    setPrevOpen(open);
+    setTitle(submenu.title);
+    setDescription(submenu.description ?? "");
+    setIsVisible(submenu.is_visible ?? true);
+  }
 
   const handleSubmit = async () => {
     await mutateAsync({

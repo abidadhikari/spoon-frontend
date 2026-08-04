@@ -6,6 +6,7 @@ import {
   useFieldArray,
   useForm,
   useWatch,
+  type Resolver,
 } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -90,7 +91,7 @@ export default function MenuItemForm({
     setValue,
     formState: { errors },
   } = useForm<MenuItemFormValues>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(schema) as Resolver<MenuItemFormValues>,
     defaultValues: defaultValues ?? {
       name: "",
       description: "",
@@ -111,7 +112,7 @@ export default function MenuItemForm({
   });
 
   const pricingType = useWatch({ control, name: "pricing_type" });
-  const prices = useWatch({ control, name: "prices" }) ?? [];
+  const prices = useWatch({ control, name: "prices", defaultValue: [] });
   const selectedLabels = useMemo(
     () =>
       prices

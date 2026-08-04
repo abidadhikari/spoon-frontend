@@ -2,7 +2,7 @@ import { Submenu } from "@/types/public-menu.type";
 
 export interface PriceTableRow {
   name: string;
-  description?: string;
+  description?: string | null;
   cells: (number | null)[];
   singlePrice: number | null;
 }

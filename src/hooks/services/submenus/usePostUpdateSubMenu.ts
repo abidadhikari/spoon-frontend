@@ -1,6 +1,5 @@
 "use client";
 import {
-  SubMenuResponse,
   updateSubmenuApiV1SubmenusRestaurantIdMenuIdSubmenuIdPatch,
   UpdateSubmenuApiV1SubmenusRestaurantIdMenuIdSubmenuIdPatchData,
 } from "@/client-services";

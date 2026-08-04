@@ -1,6 +1,9 @@
-import Image from "next/image";
 import React from "react";
 
 export default function AppLogo() {
-  return <div className="p-4 text-lg">LOGO</div>;
+  return (
+    <div className="flex items-center gap-2 rounded-lg bg-zinc-950 px-3 py-2 text-sm font-semibold text-white">
+      Spoon
+    </div>
+  );
 }

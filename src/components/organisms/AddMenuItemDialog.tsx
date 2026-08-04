@@ -10,7 +10,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { Button } from "@/components/atoms/Button";
+import { Button } from "@/components/ui/button";
 import MenuItemForm, {
   MenuItemFormValues,
 } from "@/components/organisms/MenuItemForm";

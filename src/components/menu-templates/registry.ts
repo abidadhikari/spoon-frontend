@@ -1,3 +1,4 @@
+import BigBoy from "@/components/menu-templates/BigBoy";
 import Classic from "@/components/menu-templates/Classic";
 import Elegant from "@/components/menu-templates/Elegant";
 
@@ -17,8 +18,9 @@ const menuTemplates = [
   {
     id: "big-boy",
     name: "Big Boy",
-    template: () =>
-      import("@/components/menu-templates/BigBoy").then((mod) => mod.default),
+    // template: () =>
+    //   import("@/components/menu-templates/BigBoy").then((mod) => mod.default),
+    template: BigBoy,
     thumbnail: "/templates/big-boy.png",
   },
 ] as const;

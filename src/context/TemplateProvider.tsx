@@ -4,11 +4,12 @@ import {
   getDefaultTemplate,
   menuTemplates,
 } from "@/components/menu-templates/registry";
-import { createContext, useContext, ReactNode } from "react";
+import { createContext, useContext, ReactNode, ComponentType } from "react";
+import type { IMenu } from "@/types/menu.type";
 
 type TemplateContextType = {
   name: string;
-  template: React.ComponentType<any>;
+  template: ComponentType<{ menu: IMenu }>;
   thumbnail: string;
 };
 

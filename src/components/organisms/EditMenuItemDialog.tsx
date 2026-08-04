@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { Button } from "@/components/atoms/Button";
+import { Button } from "@/components/ui/button";
 
 import MenuItemForm, {
   MenuItemFormValues,
@@ -42,7 +42,8 @@ export default function EditMenuItemDialog({
     () => ({
       name: item.name,
       description: item.description ?? "",
-      pricing_type: item.pricing_type ?? "FIXED",
+      pricing_type:
+        item.pricing_type === "VARIABLE" ? "VARIABLE" : "FIXED",
       is_visible: item.is_visible ?? true,
       prices:
         item.prices?.map((price) => ({

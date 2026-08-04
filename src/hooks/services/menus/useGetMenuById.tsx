@@ -1,7 +1,6 @@
 import {
   getMenuByIdApiV1MenusRestaurantIdMenuIdGet,
   GetMenuByIdApiV1MenusRestaurantIdMenuIdGetData,
-  MenuResponseWithRestaurant,
   MenuResponseWithSubmenus,
 } from "@/client-services";
 import { QUERY_KEYS } from "@/constants/query-keys";

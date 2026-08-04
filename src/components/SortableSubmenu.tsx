@@ -15,23 +15,43 @@ import { useEffect, useRef, useState } from "react";
 import DropIndicator from "@/components/DropIndicator";
 import MenuItemList from "@/components/MenuItemList";
 import { dragTypes, isSubmenuDragData } from "@/lib/dragTypes";
-import type { Submenu } from "@/types/menu.type";
+import type { MenuItemResponse, SubMenuResponse } from "@/client-services";
+import EditSubMenuDialog from "@/components/organisms/EditSubMenuDialog";
+import AddMenuItemDialog from "@/components/organisms/AddMenuItemDialog";
+import { Badge } from "@/components/atoms/Badge";
 
 type SortableSubmenuProps = {
-  submenu: Submenu;
-  onReorderSubmenu: (sourceSubmenuId: string, targetSubmenuId: string, edge: Edge | null) => void;
-  onReorderItem: (submenuId: string, sourceItemId: string, targetItemId: string, edge: Edge | null) => void;
+  submenu: SubMenuResponse;
+  restaurantId: string;
+  menuId: string;
+  onReorderSubmenu: (
+    sourceSubmenuId: string,
+    targetSubmenuId: string,
+    edge: Edge | null,
+  ) => void;
+  onReorderItem: (
+    submenuId: string,
+    sourceItemId: string,
+    targetItemId: string,
+    edge: Edge | null,
+  ) => void;
+  onRequestDelete: (item: MenuItemResponse) => void;
 };
 
 export default function SortableSubmenu({
   submenu,
+  restaurantId,
+  menuId,
   onReorderSubmenu,
   onReorderItem,
+  onRequestDelete,
 }: SortableSubmenuProps) {
   const submenuRef = useRef<HTMLDivElement>(null);
   const handleRef = useRef<HTMLButtonElement>(null);
   const [closestEdge, setClosestEdge] = useState<Edge | null>(null);
   const [isDragging, setIsDragging] = useState(false);
+
+  const itemCount = submenu.menu_items?.length ?? 0;
 
   useEffect(() => {
     const element = submenuRef.current;
@@ -42,7 +62,10 @@ export default function SortableSubmenu({
       draggable({
         element,
         dragHandle,
-        getInitialData: () => ({ type: dragTypes.submenu, submenuId: submenu.id }),
+        getInitialData: () => ({
+          type: dragTypes.submenu,
+          submenuId: submenu.id,
+        }),
         onDragStart: () => setIsDragging(true),
         onDrop: () => setIsDragging(false),
       }),
@@ -52,15 +75,22 @@ export default function SortableSubmenu({
         getData: ({ input, element: dropTargetElement }) =>
           attachClosestEdge(
             { type: dragTypes.submenu, submenuId: submenu.id },
-            { input, element: dropTargetElement, allowedEdges: ["top", "bottom"] },
+            {
+              input,
+              element: dropTargetElement,
+              allowedEdges: ["top", "bottom"],
+            },
           ),
         onDragEnter: ({ self }) => setClosestEdge(extractClosestEdge(self.data)),
         onDragLeave: () => setClosestEdge(null),
         onDrop: ({ source, self }) => {
           setClosestEdge(null);
           if (!isSubmenuDragData(source.data)) return;
-
-          onReorderSubmenu(source.data.submenuId, submenu.id, extractClosestEdge(self.data));
+          onReorderSubmenu(
+            source.data.submenuId,
+            submenu.id,
+            extractClosestEdge(self.data),
+          );
         },
       }),
     );
@@ -70,28 +100,71 @@ export default function SortableSubmenu({
     <section
       ref={submenuRef}
       className={`relative rounded-xl border bg-slate-50 p-4 shadow-sm transition ${
-        isDragging ? "opacity-40" : closestEdge ? "border-blue-300 ring-2 ring-blue-100" : "border-slate-200"
+        isDragging
+          ? "opacity-40"
+          : closestEdge
+            ? "border-blue-300 ring-2 ring-blue-100"
+            : "border-slate-200"
       }`}
     >
       <DropIndicator edge={closestEdge} />
+
       <header className="mb-4 flex items-center gap-3 border-b border-slate-200 pb-3">
         <button
           ref={handleRef}
           type="button"
-          aria-label={`Drag ${submenu.name}`}
+          aria-label={`Drag ${submenu.title}`}
           className="cursor-grab touch-none rounded p-1 text-slate-400 hover:bg-white hover:text-slate-700 active:cursor-grabbing"
         >
           <GripVertical className="h-5 w-5" />
         </button>
+
         <ListOrdered className="h-4 w-4 text-blue-600" />
+
         <div className="min-w-0 flex-1">
-          <h2 className="truncate font-semibold text-slate-900">{submenu.name}</h2>
+          <div className="flex flex-wrap items-center gap-2">
+            <h2 className="truncate font-semibold text-slate-900">
+              {submenu.title}
+            </h2>
+            <Badge tone={submenu.is_visible ? "green" : "zinc"}>
+              {submenu.is_visible ? "Visible" : "Hidden"}
+            </Badge>
+          </div>
+
+          {submenu.description && (
+            <p className="truncate text-xs text-slate-500">
+              {submenu.description}
+            </p>
+          )}
+
           <p className="text-xs text-slate-500">
-            {submenu.items.length} {submenu.items.length === 1 ? "item" : "items"} · position {submenu.orderIndex}
+            {itemCount} {itemCount === 1 ? "item" : "items"} · position{" "}
+            {submenu.order_index}
           </p>
         </div>
+
+        <div className="flex shrink-0 items-center gap-2">
+          <EditSubMenuDialog
+            restaurantId={restaurantId}
+            menuId={menuId}
+            submenu={submenu}
+          />
+          <AddMenuItemDialog
+            restaurantId={restaurantId}
+            menuId={menuId}
+            submenuId={submenu.id}
+          />
+        </div>
       </header>
-      <MenuItemList submenuId={submenu.id} items={submenu.items} onReorder={onReorderItem} />
+
+      <MenuItemList
+        submenuId={submenu.id}
+        restaurantId={restaurantId}
+        menuId={menuId}
+        items={submenu.menu_items}
+        onReorder={onReorderItem}
+        onRequestDelete={onRequestDelete}
+      />
     </section>
   );
 }
