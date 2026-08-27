@@ -21,6 +21,8 @@ export const usePostCreateSubMenu = () => {
 
   return useMutation({
     mutationFn: async (payload: Payload) => {
+
+      console.log("payload", payload);
       const { data, error } =
         await createSubmenuApiV1SubmenusRestaurantIdMenuIdPost({
           body: payload.body,

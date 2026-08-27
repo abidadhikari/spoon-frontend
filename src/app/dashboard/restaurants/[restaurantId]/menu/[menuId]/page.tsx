@@ -22,14 +22,17 @@ import SortableSubmenu from "@/components/SortableSubmenu";
 import type { MenuItemResponse, SubMenuResponse } from "@/client-services";
 
 export default function Page() {
-  const { id, menuId } = useParams();
-  const restaurantId = id as string;
+  const { restaurantId, menuId } = useParams();
+  const restaurant_id = restaurantId as string;
   const menu_id = menuId as string;
+
+  console.log("restaurant_id", restaurant_id);
+  console.log("menu_id", menu_id);
 
   const queryClient = useQueryClient();
 
   const { data, isLoading, error, refetch } = useGetMenuById({
-    restaurant_id: restaurantId,
+    restaurant_id: restaurant_id,
     menu_id,
   });
 
@@ -53,9 +56,9 @@ export default function Page() {
 
   const refreshMenu = useCallback(() => {
     queryClient.refetchQueries({
-      queryKey: [QUERY_KEYS.SINGLE_MENU, restaurantId, menu_id],
+      queryKey: [QUERY_KEYS.SINGLE_MENU, restaurant_id, menu_id],
     });
-  }, [queryClient, restaurantId, menu_id]);
+  }, [queryClient, restaurant_id, menu_id]);
 
   const handleSubmenuReorder = useCallback(
     (sourceSubmenuId: string, targetSubmenuId: string, edge: Edge | null) => {
@@ -71,7 +74,7 @@ export default function Page() {
       setSubmenus(reordered);
       reorderSubmenus
         .mutateAsync({
-          path: { restaurant_id: restaurantId, menu_id },
+          path: { restaurant_id: restaurant_id, menu_id },
           body: {
             new_order: reordered.map((submenu, orderIndex) => ({
               item_id: submenu.id,
@@ -81,7 +84,7 @@ export default function Page() {
         })
         .catch(() => refreshMenu());
     },
-    [menu_id, refreshMenu, reorderSubmenus, restaurantId, submenus],
+    [menu_id, refreshMenu, reorderSubmenus, restaurant_id, submenus],
   );
 
   const handleItemReorder = useCallback(
@@ -115,7 +118,7 @@ export default function Page() {
       reorderItems
         .mutateAsync({
           path: {
-            restaurant_id: restaurantId,
+            restaurant_id: restaurant_id,
             menu_id,
             submenu_id: submenuId,
           },
@@ -128,14 +131,14 @@ export default function Page() {
         })
         .catch(() => refreshMenu());
     },
-    [menu_id, refreshMenu, reorderItems, restaurantId, submenus],
+    [menu_id, refreshMenu, reorderItems, restaurant_id, submenus],
   );
 
   const handleDeleteItem = async () => {
     if (!itemToDelete) return;
 
     await deleteMenuItem.mutateAsync({
-      restaurant_id: restaurantId,
+      restaurant_id: restaurant_id,
       menu_id,
       submenu_id: itemToDelete.submenuId,
       menu_item_id: itemToDelete.item.id,
@@ -211,10 +214,7 @@ export default function Page() {
             </p>
           </div>
 
-          <AddSubMenuDialog
-            restaurantId={restaurantId}
-            menuId={menu_id}
-          />
+          <AddSubMenuDialog restaurantId={restaurant_id} menuId={menu_id} />
         </div>
 
         {qrImageUrl && (
@@ -238,17 +238,18 @@ export default function Page() {
         )}
       </section>
 
+      {/* <pre>{JSON.stringify(data?.submenus, null, 2)}</pre> */}
+
       {submenus.length === 0 ? (
         <div className="rounded-xl border border-dashed p-12 text-center">
-          <h3 className="font-heading text-base font-medium">No submenus yet</h3>
+          <h3 className="font-heading text-base font-medium">
+            No submenus yet
+          </h3>
           <p className="mt-1 text-sm text-muted-foreground">
             Add a submenu to start organizing your menu items.
           </p>
           <div className="mt-4">
-            <AddSubMenuDialog
-              restaurantId={restaurantId}
-              menuId={menu_id}
-            />
+            <AddSubMenuDialog restaurantId={restaurant_id} menuId={menu_id} />
           </div>
         </div>
       ) : (
@@ -257,7 +258,7 @@ export default function Page() {
             <SortableSubmenu
               key={submenu.id}
               submenu={submenu}
-              restaurantId={restaurantId}
+              restaurantId={restaurant_id}
               menuId={menu_id}
               onReorderSubmenu={handleSubmenuReorder}
               onReorderItem={handleItemReorder}

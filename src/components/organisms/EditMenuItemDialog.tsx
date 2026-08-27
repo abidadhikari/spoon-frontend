@@ -26,6 +26,7 @@ type Props = {
   menuId: string;
   submenuId: string;
   item: MenuItemResponse;
+  existingLabels?: string[];
 };
 
 export default function EditMenuItemDialog({
@@ -33,6 +34,7 @@ export default function EditMenuItemDialog({
   menuId,
   submenuId,
   item,
+  existingLabels = [],
 }: Props) {
   const [open, setOpen] = useState(false);
 
@@ -42,8 +44,7 @@ export default function EditMenuItemDialog({
     () => ({
       name: item.name,
       description: item.description ?? "",
-      pricing_type:
-        item.pricing_type === "VARIABLE" ? "VARIABLE" : "FIXED",
+      pricing_type: item.pricing_type === "VARIABLE" ? "VARIABLE" : "FIXED",
       is_visible: item.is_visible ?? true,
       prices:
         item.prices?.map((price) => ({
@@ -89,6 +90,7 @@ export default function EditMenuItemDialog({
 
         <MenuItemForm
           defaultValues={defaultValues}
+          existingLabels={existingLabels}
           loading={isPending}
           onSubmit={handleSubmit}
         />

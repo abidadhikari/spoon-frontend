@@ -1,10 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { useQueries } from "@tanstack/react-query";
+import { useEffect, useMemo, useState } from "react";
 import { SearchIcon } from "lucide-react";
 
-import { Metric } from "@/components/atoms/Metric";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -13,32 +11,16 @@ import {
 } from "@/components/organisms/RestaurantCard";
 import { AddRestaurantDialog } from "@/components/organisms/AddRestaurantDialog";
 import { useGetAllRestaurants } from "@/hooks/services/restaurants/useGetAllRestaurants";
-import { getMenusApiV1MenusRestaurantIdGet } from "@/client-services";
-import { QUERY_KEYS } from "@/constants/query-keys";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const Page = () => {
   const { data, isLoading, error, refetch } = useGetAllRestaurants();
   const [search, setSearch] = useState("");
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const isListView = searchParams.get("view") === "list";
 
   const restaurants = useMemo(() => data ?? [], [data]);
-
-  const menuQueries = useQueries({
-    queries: restaurants.map((restaurant) => ({
-      queryKey: [QUERY_KEYS.ALL_MENUS, restaurant.id],
-      queryFn: async () => {
-        const response = await getMenusApiV1MenusRestaurantIdGet({
-          path: { restaurant_id: restaurant.id },
-        });
-        return response.data ?? [];
-      },
-      enabled: !!restaurant.id,
-    })),
-  });
-
-  const totalMenus = useMemo(
-    () => menuQueries.reduce((sum, q) => sum + ((q.data as unknown[] | undefined)?.length ?? 0), 0),
-    [menuQueries],
-  );
 
   const filteredRestaurants = useMemo(() => {
     const term = search.trim().toLowerCase();
@@ -51,27 +33,36 @@ const Page = () => {
     );
   }, [restaurants, search]);
 
+  useEffect(() => {
+    if (!isListView && !isLoading && !error && restaurants.length > 0) {
+      router.replace(`/dashboard/restaurants/${restaurants[0].id}`);
+    }
+  }, [error, isListView, isLoading, restaurants, router]);
+
+  const hasRestaurant =
+    !isListView && !isLoading && !error && restaurants.length > 0;
+
   return (
     <div className="space-y-8">
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <h1 className="font-heading text-2xl font-semibold">Restaurants</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Manage your restaurants and their digital menus.
+      {hasRestaurant ? null : (
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h1 className="font-heading text-2xl font-semibold">Restaurants</h1>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Manage your restaurants and their digital menus.
+            </p>
+          </div>
+          <AddRestaurantDialog />
+        </div>
+      )}
+
+      {hasRestaurant ? (
+        <div className="rounded-xl border border-dashed p-12 text-center">
+          <p className="text-sm text-muted-foreground">
+            Opening your restaurant...
           </p>
         </div>
-        <AddRestaurantDialog />
-      </div>
-
-      <div className="grid grid-cols-2 gap-4 sm:max-w-xl">
-        <Metric
-          label="Restaurants"
-          value={isLoading ? "—" : restaurants.length}
-        />
-        <Metric label="Menus" value={isLoading ? "—" : totalMenus} />
-      </div>
-
-      {error ? (
+      ) : error ? (
         <div className="rounded-xl border border-dashed p-8 text-center">
           <p className="text-sm text-muted-foreground">
             Failed to load restaurants: {error.message}

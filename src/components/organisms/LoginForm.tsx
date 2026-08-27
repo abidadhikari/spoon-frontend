@@ -33,10 +33,7 @@ export function LoginForm({
   const navigate = useRouter();
   const { mutateAsync, isPending } = useLogin();
 
-  const {
-    control,
-    handleSubmit,
-  } = useForm<LoginSchemaType>({
+  const { control, handleSubmit } = useForm<LoginSchemaType>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
       email: "",
@@ -89,6 +86,15 @@ export function LoginForm({
             </Field>
           </FieldGroup>
         </form>
+
+        <Button
+          type="button"
+          onClick={() =>
+            onSubmit({ email: "user@spoon.com", password: "Password1@" })
+          }
+        >
+          User Login
+        </Button>
       </CardContent>
     </Card>
   );

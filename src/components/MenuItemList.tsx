@@ -26,6 +26,17 @@ export default function MenuItemList({
   onReorder,
   onRequestDelete,
 }: MenuItemListProps) {
+  const existingLabels = Array.from(
+    new Map(
+      items
+        .filter((item) => item.pricing_type === "VARIABLE")
+        .flatMap((item) => item.prices ?? [])
+        .map((price) => price.label.trim())
+        .filter(Boolean)
+        .map((label) => [label.toLowerCase(), label]),
+    ).values(),
+  );
+
   if (items.length === 0) {
     return (
       <p className="px-3 py-2 text-sm text-slate-400">
@@ -43,6 +54,7 @@ export default function MenuItemList({
           submenuId={submenuId}
           restaurantId={restaurantId}
           menuId={menuId}
+          existingLabels={existingLabels}
           onReorder={(sourceItemId, targetItemId, edge) =>
             onReorder(submenuId, sourceItemId, targetItemId, edge)
           }

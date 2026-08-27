@@ -21,12 +21,14 @@ type Props = {
   restaurantId: string;
   menuId: string;
   submenuId: string;
+  existingLabels?: string[];
 };
 
 export default function AddMenuItemDialog({
   restaurantId,
   menuId,
   submenuId,
+  existingLabels = [],
 }: Props) {
   const [open, setOpen] = useState(false);
 
@@ -62,7 +64,11 @@ export default function AddMenuItemDialog({
           <DialogTitle>Create Menu Item</DialogTitle>
         </DialogHeader>
 
-        <MenuItemForm loading={isPending} onSubmit={handleSubmit} />
+        <MenuItemForm
+          existingLabels={existingLabels}
+          loading={isPending}
+          onSubmit={handleSubmit}
+        />
       </DialogContent>
     </Dialog>
   );

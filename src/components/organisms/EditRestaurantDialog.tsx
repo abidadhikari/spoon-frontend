@@ -56,6 +56,7 @@ export function EditRestaurantDialog({ restaurant }: Props) {
           loading={isPending}
           defaultValues={{
             name: restaurant.name,
+            alias: restaurant.alias,
             description: restaurant.description ?? "",
           }}
           onSubmit={handleSubmit}

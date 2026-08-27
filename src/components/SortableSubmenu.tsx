@@ -52,6 +52,29 @@ export default function SortableSubmenu({
   const [isDragging, setIsDragging] = useState(false);
 
   const itemCount = submenu.menu_items?.length ?? 0;
+  const existingLabels = Array.from(
+    new Map(
+      (submenu.menu_items ?? [])
+        .filter((item) => item.pricing_type === "VARIABLE")
+        .flatMap((item) => item.prices ?? [])
+        .map((price) => price.label.trim())
+        .filter(Boolean)
+        .map((label) => [label.toLowerCase(), label]),
+    ).values(),
+  );
+
+  const variableMenuItems =
+    submenu.menu_items?.filter((item) => item.pricing_type === "VARIABLE") ??
+    [];
+  const variableLabels = Array.from(
+    new Map(
+      variableMenuItems
+        .flatMap((item) => item.prices ?? [])
+        .map((price) => price.label.trim())
+        .filter(Boolean)
+        .map((label) => [label.toLowerCase(), label]),
+    ).values(),
+  );
 
   useEffect(() => {
     const element = submenuRef.current;
@@ -81,7 +104,8 @@ export default function SortableSubmenu({
               allowedEdges: ["top", "bottom"],
             },
           ),
-        onDragEnter: ({ self }) => setClosestEdge(extractClosestEdge(self.data)),
+        onDragEnter: ({ self }) =>
+          setClosestEdge(extractClosestEdge(self.data)),
         onDragLeave: () => setClosestEdge(null),
         onDrop: ({ source, self }) => {
           setClosestEdge(null);
@@ -153,6 +177,7 @@ export default function SortableSubmenu({
             restaurantId={restaurantId}
             menuId={menuId}
             submenuId={submenu.id}
+            existingLabels={existingLabels}
           />
         </div>
       </header>

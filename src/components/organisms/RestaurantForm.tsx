@@ -7,8 +7,7 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldGroup } from "@/components/ui/field";
 import FormInputItem from "@/components/molecules/FormInputItem";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+import FormTextareaItem from "@/components/molecules/FormTextareaItem";
 
 const restaurantSchema = z.object({
   name: z.string().trim().min(1, "Name is required"),
@@ -31,12 +30,7 @@ export function RestaurantForm({
   loading,
   onSubmit,
 }: Props) {
-  const {
-    control,
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<RestaurantFormValues>({
+  const { control, handleSubmit } = useForm<RestaurantFormValues>({
     resolver: zodResolver(restaurantSchema),
     defaultValues: {
       name: "",
@@ -65,15 +59,12 @@ export function RestaurantForm({
           />
         )}
 
-        <div>
-          <Label>Description</Label>
-          <Textarea rows={3} {...register("description")} />
-          {errors.description && (
-            <p className="mt-1 text-sm text-red-500">
-              {errors.description.message}
-            </p>
-          )}
-        </div>
+        <FormTextareaItem
+          control={control}
+          name="description"
+          label="Description"
+          rows={3}
+        />
 
         <Field>
           <Button type="submit" className="w-full" disabled={loading}>

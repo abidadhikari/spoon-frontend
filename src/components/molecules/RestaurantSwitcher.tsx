@@ -21,6 +21,7 @@ import { BookOpen, ChevronsUpDownIcon, PlusIcon } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useGetAllRestaurants } from "@/hooks/services/restaurants/useGetAllRestaurants";
 import { useMemo } from "react";
+import { AddRestaurantDialog } from "@/components/organisms/AddRestaurantDialog";
 
 export function RestaurantSwitcher() {
   const { isMobile } = useSidebar();
@@ -92,19 +93,21 @@ export function RestaurantSwitcher() {
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem
-                className="gap-2 p-2"
-                onClick={() => {
-                  navigate.replace("/dashboard");
-                }}
-              >
-                <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
-                  <PlusIcon className="size-4" />
-                </div>
-                <div className="font-medium text-muted-foreground">
-                  Add restaurant
-                </div>
-              </DropdownMenuItem>
+              <AddRestaurantDialog
+                trigger={
+                  <DropdownMenuItem
+                    className="gap-2 p-2"
+                    onSelect={(event) => event.preventDefault()}
+                  >
+                    <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
+                      <PlusIcon className="size-4" />
+                    </div>
+                    <div className="font-medium text-muted-foreground">
+                      Add restaurant
+                    </div>
+                  </DropdownMenuItem>
+                }
+              />
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>

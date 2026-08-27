@@ -12,10 +12,10 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { CreatableCombobox } from "@/components/CreatableCombobox";
+import FormTextareaItem from "@/components/molecules/FormTextareaItem";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 
 const schema = z
   .object({
@@ -114,10 +114,7 @@ export default function MenuItemForm({
   const pricingType = useWatch({ control, name: "pricing_type" });
   const prices = useWatch({ control, name: "prices", defaultValue: [] });
   const selectedLabels = useMemo(
-    () =>
-      prices
-        .map((price) => price.label.trim())
-        .filter(Boolean),
+    () => prices.map((price) => price.label.trim()).filter(Boolean),
     [prices],
   );
   const labelOptions = useMemo(
@@ -190,11 +187,12 @@ export default function MenuItemForm({
         )}
       </div>
 
-      <div>
-        <Label>Description</Label>
-
-        <Textarea rows={4} {...register("description")} />
-      </div>
+      <FormTextareaItem
+        control={control}
+        name="description"
+        label="Description"
+        rows={4}
+      />
 
       <div>
         <Label>Pricing Type</Label>

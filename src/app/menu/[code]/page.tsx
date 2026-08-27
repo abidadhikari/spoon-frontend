@@ -10,7 +10,7 @@ type Props = {
 export default async function Page({ params }: Props) {
   const { code } = await params;
   return (
-    <TemplateProvider templateId="elegant">
+    <TemplateProvider templateId="classic">
       <RestaurantMenu code={code} />
     </TemplateProvider>
   );

@@ -10,15 +10,18 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { BookOpen, LayoutDashboard, Users } from "lucide-react";
+import { BookOpen, LayoutDashboard, Store, Users } from "lucide-react";
 import { AppSidebarGroup } from "@/components/molecules/AppSidebarGroup";
-import { useParams, usePathname } from "next/navigation";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { RestaurantSwitcher } from "@/components/molecules/RestaurantSwitcher";
 import { useGetAllMenus } from "@/hooks/services/menus/useGetAllMenus";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { restaurantId } = useParams();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const isRestaurantList =
+    pathname === "/dashboard" && searchParams.get("view") === "list";
 
   const { data: menus } = useGetAllMenus({
     restaurant_id: (restaurantId as string) ?? "",
@@ -40,13 +43,25 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           label="Workspace"
           items={[
             {
+              name: "Restaurants",
+              url: "/dashboard?view=list",
+              icon: <Store />,
+              active: isRestaurantList,
+            },
+          ]}
+        />
+        <AppSidebarGroup
+          label="Workspace"
+          items={[
+            {
               name: "Dashboard",
               url: "/dashboard",
               icon: <LayoutDashboard />,
               active:
-                pathname === "/dashboard" ||
+                (pathname === "/dashboard" && !isRestaurantList) ||
                 pathname.startsWith("/dashboard/restaurants"),
             },
+
             {
               name: "Users",
               url: "/dashboard/users",
@@ -55,9 +70,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             },
           ]}
         />
-        {restaurantId && (
-          <AppSidebarGroup label="Menus" items={menuItems} />
-        )}
+        {restaurantId && <AppSidebarGroup label="Menus" items={menuItems} />}
       </SidebarContent>
       <SidebarFooter>
         <NavUser />

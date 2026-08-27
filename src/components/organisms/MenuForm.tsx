@@ -7,8 +7,8 @@ import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldGroup } from "@/components/ui/field";
 import FormInputItem from "@/components/molecules/FormInputItem";
+import FormTextareaItem from "@/components/molecules/FormTextareaItem";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 
 const menuSchema = z.object({
   name: z.string().trim().min(1, "Name is required"),
@@ -31,12 +31,7 @@ export function MenuForm({
   submitLabel = "Save",
   onSubmit,
 }: Props) {
-  const {
-    control,
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<MenuFormValues>({
+  const { control, register, handleSubmit } = useForm<MenuFormValues>({
     resolver: zodResolver(menuSchema),
     defaultValues: {
       name: "",
@@ -56,15 +51,12 @@ export function MenuForm({
           placeholder="e.g. Main Menu"
         />
 
-        <div>
-          <Label>Description</Label>
-          <Textarea rows={3} {...register("description")} />
-          {errors.description && (
-            <p className="mt-1 text-sm text-red-500">
-              {errors.description.message}
-            </p>
-          )}
-        </div>
+        <FormTextareaItem
+          control={control}
+          name="description"
+          label="Description"
+          rows={3}
+        />
 
         <label className="flex items-center gap-2">
           <input type="checkbox" {...register("is_visible")} />

@@ -23,6 +23,7 @@ type SortableMenuItemProps = {
   submenuId: string;
   restaurantId: string;
   menuId: string;
+  existingLabels: string[];
   onReorder: (
     sourceItemId: string,
     targetItemId: string,
@@ -36,6 +37,7 @@ export default function SortableMenuItem({
   submenuId,
   restaurantId,
   menuId,
+  existingLabels,
   onReorder,
   onRequestDelete,
 }: SortableMenuItemProps) {
@@ -75,7 +77,8 @@ export default function SortableMenuItem({
               allowedEdges: ["top", "bottom"],
             },
           ),
-        onDragEnter: ({ self }) => setClosestEdge(extractClosestEdge(self.data)),
+        onDragEnter: ({ self }) =>
+          setClosestEdge(extractClosestEdge(self.data)),
         onDragLeave: () => setClosestEdge(null),
         onDrop: ({ source, self }) => {
           setClosestEdge(null);
@@ -85,11 +88,7 @@ export default function SortableMenuItem({
           ) {
             return;
           }
-          onReorder(
-            source.data.itemId,
-            item.id,
-            extractClosestEdge(self.data),
-          );
+          onReorder(source.data.itemId, item.id, extractClosestEdge(self.data));
         },
       }),
     );
@@ -119,10 +118,10 @@ export default function SortableMenuItem({
 
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-sm font-medium text-slate-700">{item.name}</span>
-          {item.pricing_type && (
-            <Badge tone="zinc">{item.pricing_type}</Badge>
-          )}
+          <span className="text-sm font-medium text-slate-700">
+            {item.name}
+          </span>
+          {item.pricing_type && <Badge tone="zinc">{item.pricing_type}</Badge>}
         </div>
 
         {item.description && (
@@ -151,6 +150,7 @@ export default function SortableMenuItem({
           menuId={menuId}
           submenuId={submenuId}
           item={item}
+          existingLabels={existingLabels}
         />
 
         <button
