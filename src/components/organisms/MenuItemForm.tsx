@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useMemo, useRef } from "react";
 import {
   Controller,
   useFieldArray,
@@ -111,6 +111,14 @@ export default function MenuItemForm({
     name: "prices",
   });
 
+  const fixedPriceRef = useRef({
+    label: "Fixed",
+    price: defaultValues?.prices?.[0]?.price ?? 0,
+  });
+  const variablePricesRef = useRef<MenuItemFormValues["prices"]>(
+    defaultValues?.pricing_type === "VARIABLE" ? defaultValues.prices : [],
+  );
+
   const pricingType = useWatch({ control, name: "pricing_type" });
   const prices = useWatch({ control, name: "prices", defaultValue: [] });
   const selectedLabels = useMemo(
@@ -130,32 +138,36 @@ export default function MenuItemForm({
     [existingLabels, selectedLabels],
   );
 
-  useEffect(() => {
-    if (pricingType !== "FIXED") {
+  const handlePricingTypeChange = (nextPricingType: "FIXED" | "VARIABLE") => {
+    if (nextPricingType === pricingType) {
       return;
     }
 
     const currentPrices = getValues("prices");
-    const firstPrice = currentPrices[0];
-    const fixedPrice = {
-      label: "Fixed",
-      price: firstPrice?.price ?? 0,
-    };
 
-    if (
-      currentPrices.length !== 1 ||
-      currentPrices[0]?.label !== "Fixed" ||
-      currentPrices[0]?.price !== fixedPrice.price
-    ) {
-      replace([fixedPrice]);
-      return;
+    if (nextPricingType === "FIXED") {
+      variablePricesRef.current = currentPrices;
+      fixedPriceRef.current = {
+        label: "Fixed",
+        price: currentPrices[0]?.price ?? fixedPriceRef.current.price,
+      };
+      replace([fixedPriceRef.current]);
+    } else {
+      fixedPriceRef.current = {
+        label: "Fixed",
+        price: currentPrices[0]?.price ?? fixedPriceRef.current.price,
+      };
+      const variablePrices = variablePricesRef.current.length
+        ? variablePricesRef.current
+        : [{ label: "", price: fixedPriceRef.current.price }];
+      replace(variablePrices);
     }
 
-    setValue("prices.0.label", "Fixed", {
-      shouldDirty: false,
+    setValue("pricing_type", nextPricingType, {
+      shouldDirty: true,
       shouldValidate: true,
     });
-  }, [getValues, pricingType, replace, setValue]);
+  };
 
   const submitForm = (values: MenuItemFormValues) => {
     if (values.pricing_type === "FIXED") {
@@ -205,12 +217,7 @@ export default function MenuItemForm({
               key={type}
               type="button"
               variant={pricingType === type ? "default" : "outline"}
-              onClick={() =>
-                setValue("pricing_type", type, {
-                  shouldDirty: true,
-                  shouldValidate: true,
-                })
-              }
+              onClick={() => handlePricingTypeChange(type)}
             >
               {type}
             </Button>
