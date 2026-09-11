@@ -978,9 +978,23 @@ export type GetMeApiV1AuthGetMeGetResponses = {
 export type GetAllUsersApiV1UsersGetData = {
     body?: never;
     path?: never;
-    query?: never;
+    query?: {
+        /**
+         * Org Id
+         */
+        org_id?: string | null;
+    };
     url: '/api/v1/users/';
 };
+
+export type GetAllUsersApiV1UsersGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetAllUsersApiV1UsersGetError = GetAllUsersApiV1UsersGetErrors[keyof GetAllUsersApiV1UsersGetErrors];
 
 export type GetAllUsersApiV1UsersGetResponses = {
     /**

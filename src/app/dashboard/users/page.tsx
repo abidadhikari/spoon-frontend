@@ -9,10 +9,24 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ConfirmDialog } from "@/components/organisms/ConfirmDialog";
 import { useGetAllUsers } from "@/hooks/services/users/useGetAllUsers";
 import { useDeleteUser } from "@/hooks/services/users/useDeleteUser";
+import { useCurrentRestaurant } from "@/hooks/services/restaurants/useCurrentRestaurant";
 import type { UserUnrestrictedResponse } from "@/client-services";
 
 const Page = () => {
-  const { data, isLoading, error, refetch } = useGetAllUsers();
+  const {
+    currentRestaurant,
+    isLoading: isLoadingRestaurant,
+    error: restaurantError,
+  } = useCurrentRestaurant();
+
+  const { data, isLoading, error, refetch } = useGetAllUsers(
+    {
+      org_id: currentRestaurant?.id ?? null,
+    },
+    {
+      enabled: !isLoadingRestaurant,
+    },
+  );
   const deleteUser = useDeleteUser();
   const [userToDelete, setUserToDelete] =
     useState<UserUnrestrictedResponse | null>(null);
@@ -24,6 +38,8 @@ const Page = () => {
   };
 
   const users = data ?? [];
+  const activeError = error ?? restaurantError;
+  const isPageLoading = isLoading || isLoadingRestaurant;
 
   return (
     <div className="space-y-8">
@@ -34,16 +50,16 @@ const Page = () => {
         </p>
       </div>
 
-      {error ? (
+      {activeError ? (
         <div className="rounded-xl border border-dashed p-8 text-center">
           <p className="text-sm text-muted-foreground">
-            Failed to load users: {error.message}
+            Failed to load users: {activeError.message}
           </p>
           <Button variant="outline" className="mt-4" onClick={() => refetch()}>
             Try again
           </Button>
         </div>
-      ) : isLoading ? (
+      ) : isPageLoading ? (
         <div className="space-y-3">
           {Array.from({ length: 5 }).map((_, index) => (
             <div key={index} className="rounded-xl border p-4">
@@ -79,9 +95,7 @@ const Page = () => {
                     {user.email}
                   </td>
                   <td className="px-4 py-3">
-                    <Badge
-                      tone={user.is_verified ? "green" : "orange"}
-                    >
+                    <Badge tone={user.is_verified ? "green" : "orange"}>
                       {user.is_verified ? "Verified" : "Unverified"}
                     </Badge>
                   </td>

@@ -18,16 +18,18 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { BookOpen, ChevronsUpDownIcon, PlusIcon } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
-import { useGetAllRestaurants } from "@/hooks/services/restaurants/useGetAllRestaurants";
-import { useMemo } from "react";
+import { useRouter } from "next/navigation";
+import {
+  CURRENT_RESTAURANT_STORAGE_KEY,
+  useCurrentRestaurant,
+} from "@/hooks/services/restaurants/useCurrentRestaurant";
 import { AddRestaurantDialog } from "@/components/organisms/AddRestaurantDialog";
 
 export function RestaurantSwitcher() {
   const { isMobile } = useSidebar();
-  const { restaurantId } = useParams();
   const navigate = useRouter();
-  const { data: restaurantsData } = useGetAllRestaurants();
+  const { currentRestaurant: activeRestaurant, restaurants: restaurantsData } =
+    useCurrentRestaurant();
 
   const restaurantList =
     restaurantsData?.map((restaurant) => ({
@@ -35,14 +37,6 @@ export function RestaurantSwitcher() {
       name: restaurant.name,
       alias: restaurant.alias,
     })) ?? [];
-
-  const activeRestaurant = useMemo(() => {
-    if (!restaurantsData?.length) return null;
-
-    return (
-      restaurantsData.find((r) => r.id === restaurantId) ?? restaurantsData[0]
-    );
-  }, [restaurantsData, restaurantId]);
 
   return (
     <SidebarMenu>
@@ -80,6 +74,12 @@ export function RestaurantSwitcher() {
                 <DropdownMenuItem
                   key={restaurant.name + index}
                   onClick={() => {
+                    if (typeof window !== "undefined") {
+                      localStorage.setItem(
+                        CURRENT_RESTAURANT_STORAGE_KEY,
+                        restaurant.id,
+                      );
+                    }
                     navigate.replace(`/dashboard/restaurants/${restaurant.id}`);
                   }}
                   className="gap-2 p-2"
