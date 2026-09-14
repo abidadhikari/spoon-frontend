@@ -35,6 +35,16 @@ export type BodyLoginApiV1AuthLoginPost = {
 };
 
 /**
+ * ForgotPasswordPayload
+ */
+export type ForgotPasswordPayload = {
+    /**
+     * Email
+     */
+    email: string;
+};
+
+/**
  * GenericResponse
  */
 export type GenericResponse = {
@@ -54,6 +64,63 @@ export type HttpValidationError = {
      * Detail
      */
     detail?: Array<ValidationError>;
+};
+
+/**
+ * LoginResponse
+ */
+export type LoginResponse = {
+    /**
+     * Access Token
+     */
+    access_token: string;
+    /**
+     * Token Type
+     */
+    token_type: string;
+    data: LoginResponseData;
+};
+
+/**
+ * LoginResponseData
+ */
+export type LoginResponseData = {
+    /**
+     * Email
+     */
+    email: string;
+    /**
+     * Id
+     */
+    id: string;
+    /**
+     * First Name
+     */
+    first_name: string;
+    /**
+     * Last Name
+     */
+    last_name?: string | null;
+    /**
+     * Middle Name
+     */
+    middle_name?: string | null;
+    /**
+     * Name
+     */
+    name?: string | null;
+    /**
+     * Is Verified
+     */
+    is_verified: boolean;
+    /**
+     * Status
+     */
+    status: string;
+    /**
+     * App Role
+     */
+    app_role: string;
 };
 
 /**
@@ -457,40 +524,6 @@ export type MenuUpdate = {
 };
 
 /**
- * OTPResponse
- */
-export type OtpResponse = {
-    /**
-     * Id
-     */
-    id: string;
-    /**
-     * Created At
-     */
-    created_at: string;
-    /**
-     * Updated At
-     */
-    updated_at: string;
-    /**
-     * Code
-     */
-    code: string;
-    /**
-     * Purpose
-     */
-    purpose: string;
-    /**
-     * Expires At
-     */
-    expires_at: string;
-    /**
-     * Is Used
-     */
-    is_used?: boolean | null;
-};
-
-/**
  * OrderIndex
  */
 export type OrderIndex = {
@@ -504,6 +537,46 @@ export type OrderIndex = {
      * The new order index for the item
      */
     order_index: number;
+};
+
+/**
+ * PaginationMeta
+ */
+export type PaginationMeta = {
+    /**
+     * Page
+     */
+    page: number;
+    /**
+     * Page Size
+     */
+    page_size: number;
+    /**
+     * Total
+     */
+    total: number;
+    /**
+     * Total Pages
+     */
+    total_pages: number;
+};
+
+/**
+ * PermissionResponse
+ */
+export type PermissionResponse = {
+    /**
+     * Id
+     */
+    id: string;
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Description
+     */
+    description: string;
 };
 
 /**
@@ -542,6 +615,34 @@ export type QrResponse = {
      * Views
      */
     views: number;
+};
+
+/**
+ * ResendVerificationPayload
+ */
+export type ResendVerificationPayload = {
+    /**
+     * Email
+     */
+    email: string;
+};
+
+/**
+ * ResetPasswordPayload
+ */
+export type ResetPasswordPayload = {
+    /**
+     * Email
+     */
+    email: string;
+    /**
+     * Otp
+     */
+    otp: string;
+    /**
+     * New Password
+     */
+    new_password: string;
 };
 
 /**
@@ -646,6 +747,24 @@ export type ResturantResponseWithMenus = {
      * Menus
      */
     menus: Array<MenuResponse>;
+};
+
+/**
+ * RolesResponse
+ */
+export type RolesResponse = {
+    /**
+     * Id
+     */
+    id: string;
+    /**
+     * Restaurant Id
+     */
+    restaurant_id: string;
+    /**
+     * Permissions
+     */
+    permissions: Array<PermissionResponse>;
 };
 
 /**
@@ -755,9 +874,24 @@ export type UserCreate = {
      */
     middle_name?: string | null;
     /**
+     * App Role
+     */
+    app_role?: string | null;
+    /**
      * Password
      */
     password: string;
+};
+
+/**
+ * UserPaginatedResponse
+ */
+export type UserPaginatedResponse = {
+    /**
+     * Data
+     */
+    data: Array<UserResponse>;
+    pagination: PaginationMeta;
 };
 
 /**
@@ -785,56 +919,6 @@ export type UserResponse = {
      */
     first_name?: string | null;
     /**
-     * Email
-     */
-    email: string | string;
-    /**
-     * Is Verified
-     */
-    is_verified?: boolean | null;
-    /**
-     * Status
-     */
-    status?: string | null;
-};
-
-/**
- * UserUnrestrictedResponse
- */
-export type UserUnrestrictedResponse = {
-    /**
-     * Id
-     */
-    id: string;
-    /**
-     * Created At
-     */
-    created_at: string;
-    /**
-     * Updated At
-     */
-    updated_at: string;
-    /**
-     * Name
-     */
-    name: string;
-    /**
-     * First Name
-     */
-    first_name?: string | null;
-    /**
-     * Email
-     */
-    email: string | string;
-    /**
-     * Is Verified
-     */
-    is_verified?: boolean | null;
-    /**
-     * Status
-     */
-    status?: string | null;
-    /**
      * Middle Name
      */
     middle_name?: string | null;
@@ -843,10 +927,24 @@ export type UserUnrestrictedResponse = {
      */
     last_name?: string | null;
     /**
-     * Otps
+     * Email
      */
-    otps?: Array<OtpResponse> | null;
+    email: string | string;
+    /**
+     * Is Verified
+     */
+    is_verified?: boolean | null;
+    app_role: UserRole;
+    /**
+     * Status
+     */
+    status?: string | null;
 };
+
+/**
+ * UserRole
+ */
+export type UserRole = 'SUPER_ADMIN' | 'ADMIN' | 'USER';
 
 /**
  * ValidationError
@@ -890,6 +988,56 @@ export type VerifyEmailPayload = {
     email: string;
 };
 
+export type GetPermissionsApiV1RolesAndPermissionsPermissionsGetData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/roles-and-permissions/permissions';
+};
+
+export type GetPermissionsApiV1RolesAndPermissionsPermissionsGetResponses = {
+    /**
+     * Response Get Permissions Api V1 Roles And Permissions Permissions Get
+     *
+     * Successful Response
+     */
+    200: Array<PermissionResponse>;
+};
+
+export type GetPermissionsApiV1RolesAndPermissionsPermissionsGetResponse = GetPermissionsApiV1RolesAndPermissionsPermissionsGetResponses[keyof GetPermissionsApiV1RolesAndPermissionsPermissionsGetResponses];
+
+export type GetRolesApiV1RolesAndPermissionsRolesRestaurantIdGetData = {
+    body?: never;
+    path: {
+        /**
+         * Restaurant Id
+         */
+        restaurant_id: string;
+    };
+    query?: never;
+    url: '/api/v1/roles-and-permissions/roles/{restaurant_id}';
+};
+
+export type GetRolesApiV1RolesAndPermissionsRolesRestaurantIdGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetRolesApiV1RolesAndPermissionsRolesRestaurantIdGetError = GetRolesApiV1RolesAndPermissionsRolesRestaurantIdGetErrors[keyof GetRolesApiV1RolesAndPermissionsRolesRestaurantIdGetErrors];
+
+export type GetRolesApiV1RolesAndPermissionsRolesRestaurantIdGetResponses = {
+    /**
+     * Response Get Roles Api V1 Roles And Permissions Roles  Restaurant Id  Get
+     *
+     * Successful Response
+     */
+    200: Array<RolesResponse>;
+};
+
+export type GetRolesApiV1RolesAndPermissionsRolesRestaurantIdGetResponse = GetRolesApiV1RolesAndPermissionsRolesRestaurantIdGetResponses[keyof GetRolesApiV1RolesAndPermissionsRolesRestaurantIdGetResponses];
+
 export type LoginApiV1AuthLoginPostData = {
     body: BodyLoginApiV1AuthLoginPost;
     path?: never;
@@ -910,8 +1058,10 @@ export type LoginApiV1AuthLoginPostResponses = {
     /**
      * Successful Response
      */
-    200: unknown;
+    200: LoginResponse;
 };
+
+export type LoginApiV1AuthLoginPostResponse = LoginApiV1AuthLoginPostResponses[keyof LoginApiV1AuthLoginPostResponses];
 
 export type RegisterApiV1AuthRegisterPostData = {
     body: UserCreate;
@@ -961,6 +1111,75 @@ export type VerifyUserApiV1AuthVerifyPostResponses = {
 
 export type VerifyUserApiV1AuthVerifyPostResponse = VerifyUserApiV1AuthVerifyPostResponses[keyof VerifyUserApiV1AuthVerifyPostResponses];
 
+export type ResendVerificationApiV1AuthResendVerificationPostData = {
+    body: ResendVerificationPayload;
+    path?: never;
+    query?: never;
+    url: '/api/v1/auth/resend-verification';
+};
+
+export type ResendVerificationApiV1AuthResendVerificationPostErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ResendVerificationApiV1AuthResendVerificationPostError = ResendVerificationApiV1AuthResendVerificationPostErrors[keyof ResendVerificationApiV1AuthResendVerificationPostErrors];
+
+export type ResendVerificationApiV1AuthResendVerificationPostResponses = {
+    /**
+     * Successful Response
+     */
+    200: unknown;
+};
+
+export type ForgotPasswordApiV1AuthForgotPasswordPostData = {
+    body: ForgotPasswordPayload;
+    path?: never;
+    query?: never;
+    url: '/api/v1/auth/forgot-password';
+};
+
+export type ForgotPasswordApiV1AuthForgotPasswordPostErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ForgotPasswordApiV1AuthForgotPasswordPostError = ForgotPasswordApiV1AuthForgotPasswordPostErrors[keyof ForgotPasswordApiV1AuthForgotPasswordPostErrors];
+
+export type ForgotPasswordApiV1AuthForgotPasswordPostResponses = {
+    /**
+     * Successful Response
+     */
+    200: unknown;
+};
+
+export type ResetPasswordApiV1AuthResetPasswordPostData = {
+    body: ResetPasswordPayload;
+    path?: never;
+    query?: never;
+    url: '/api/v1/auth/reset-password';
+};
+
+export type ResetPasswordApiV1AuthResetPasswordPostErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type ResetPasswordApiV1AuthResetPasswordPostError = ResetPasswordApiV1AuthResetPasswordPostErrors[keyof ResetPasswordApiV1AuthResetPasswordPostErrors];
+
+export type ResetPasswordApiV1AuthResetPasswordPostResponses = {
+    /**
+     * Successful Response
+     */
+    200: unknown;
+};
+
 export type GetMeApiV1AuthGetMeGetData = {
     body?: never;
     path?: never;
@@ -975,67 +1194,58 @@ export type GetMeApiV1AuthGetMeGetResponses = {
     200: unknown;
 };
 
-export type GetAllUsersApiV1UsersGetData = {
+export type GetMyDetailsApiV1AuthGetMyDetailsGetData = {
     body?: never;
     path?: never;
-    query?: {
-        /**
-         * Org Id
-         */
-        org_id?: string | null;
-    };
-    url: '/api/v1/users/';
+    query?: never;
+    url: '/api/v1/auth/get-my-details';
 };
 
-export type GetAllUsersApiV1UsersGetErrors = {
+export type GetMyDetailsApiV1AuthGetMyDetailsGetResponses = {
     /**
-     * Validation Error
-     */
-    422: HttpValidationError;
-};
-
-export type GetAllUsersApiV1UsersGetError = GetAllUsersApiV1UsersGetErrors[keyof GetAllUsersApiV1UsersGetErrors];
-
-export type GetAllUsersApiV1UsersGetResponses = {
-    /**
-     * Response Get All Users Api V1 Users  Get
-     *
      * Successful Response
      */
-    200: Array<UserUnrestrictedResponse>;
+    200: unknown;
 };
 
-export type GetAllUsersApiV1UsersGetResponse = GetAllUsersApiV1UsersGetResponses[keyof GetAllUsersApiV1UsersGetResponses];
-
-export type DeleteUserApiV1UsersIdDeleteData = {
+export type GetAllUsersApiV1UsersRestaurantIdGetData = {
     body?: never;
     path: {
         /**
-         * Id
+         * Restaurant Id
          */
-        id: string;
+        restaurant_id: string;
     };
-    query?: never;
-    url: '/api/v1/users/{id}';
+    query?: {
+        /**
+         * Page
+         */
+        page?: number;
+        /**
+         * Page Size
+         */
+        page_size?: number;
+    };
+    url: '/api/v1/users/{restaurant_id}';
 };
 
-export type DeleteUserApiV1UsersIdDeleteErrors = {
+export type GetAllUsersApiV1UsersRestaurantIdGetErrors = {
     /**
      * Validation Error
      */
     422: HttpValidationError;
 };
 
-export type DeleteUserApiV1UsersIdDeleteError = DeleteUserApiV1UsersIdDeleteErrors[keyof DeleteUserApiV1UsersIdDeleteErrors];
+export type GetAllUsersApiV1UsersRestaurantIdGetError = GetAllUsersApiV1UsersRestaurantIdGetErrors[keyof GetAllUsersApiV1UsersRestaurantIdGetErrors];
 
-export type DeleteUserApiV1UsersIdDeleteResponses = {
+export type GetAllUsersApiV1UsersRestaurantIdGetResponses = {
     /**
      * Successful Response
      */
-    200: UserResponse;
+    200: UserPaginatedResponse;
 };
 
-export type DeleteUserApiV1UsersIdDeleteResponse = DeleteUserApiV1UsersIdDeleteResponses[keyof DeleteUserApiV1UsersIdDeleteResponses];
+export type GetAllUsersApiV1UsersRestaurantIdGetResponse = GetAllUsersApiV1UsersRestaurantIdGetResponses[keyof GetAllUsersApiV1UsersRestaurantIdGetResponses];
 
 export type ReadRestaurantsApiV1RestaurantsGetData = {
     body?: never;

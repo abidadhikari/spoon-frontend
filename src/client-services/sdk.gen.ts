@@ -2,7 +2,7 @@
 
 import { type Client, type ClientMeta, type Options as Options2, type RequestResult, type TDataShape, urlSearchParamsBodySerializer } from './client';
 import { client } from './client.gen';
-import type { CreateMenuApiV1MenusRestaurantIdPostData, CreateMenuApiV1MenusRestaurantIdPostErrors, CreateMenuApiV1MenusRestaurantIdPostResponses, CreateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdPostData, CreateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdPostErrors, CreateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdPostResponses, CreateRestaurantApiV1RestaurantsCreatePostData, CreateRestaurantApiV1RestaurantsCreatePostErrors, CreateRestaurantApiV1RestaurantsCreatePostResponses, CreateSubmenuApiV1SubmenusRestaurantIdMenuIdPostData, CreateSubmenuApiV1SubmenusRestaurantIdMenuIdPostErrors, CreateSubmenuApiV1SubmenusRestaurantIdMenuIdPostResponses, DeleteMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdDeleteData, DeleteMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdDeleteErrors, DeleteMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdDeleteResponses, DeleteUserApiV1UsersIdDeleteData, DeleteUserApiV1UsersIdDeleteErrors, DeleteUserApiV1UsersIdDeleteResponses, GetAllUsersApiV1UsersGetData, GetAllUsersApiV1UsersGetErrors, GetAllUsersApiV1UsersGetResponses, GetMeApiV1AuthGetMeGetData, GetMeApiV1AuthGetMeGetResponses, GetMenuByIdApiV1MenusRestaurantIdMenuIdGetData, GetMenuByIdApiV1MenusRestaurantIdMenuIdGetErrors, GetMenuByIdApiV1MenusRestaurantIdMenuIdGetResponses, GetMenusApiV1MenusRestaurantIdGetData, GetMenusApiV1MenusRestaurantIdGetErrors, GetMenusApiV1MenusRestaurantIdGetResponses, GetPublicMenuApiV1MenusPublicCodeGetData, GetPublicMenuApiV1MenusPublicCodeGetErrors, GetPublicMenuApiV1MenusPublicCodeGetResponses, GetQrCodesQGetData, GetQrCodesQGetResponses, GetQrImageQQrIdGetData, GetQrImageQQrIdGetErrors, GetQrImageQQrIdGetResponses, GetUsersOfRestaurantApiV1RestaurantsRestaurantIdUsersGetData, GetUsersOfRestaurantApiV1RestaurantsRestaurantIdUsersGetErrors, GetUsersOfRestaurantApiV1RestaurantsRestaurantIdUsersGetResponses, ListSubmenusApiV1SubmenusRestaurantIdMenuIdGetData, ListSubmenusApiV1SubmenusRestaurantIdMenuIdGetErrors, ListSubmenusApiV1SubmenusRestaurantIdMenuIdGetResponses, LoginApiV1AuthLoginPostData, LoginApiV1AuthLoginPostErrors, LoginApiV1AuthLoginPostResponses, ReadRestaurantByIdApiV1RestaurantsRestaurantIdGetData, ReadRestaurantByIdApiV1RestaurantsRestaurantIdGetErrors, ReadRestaurantByIdApiV1RestaurantsRestaurantIdGetResponses, ReadRestaurantsApiV1RestaurantsGetData, ReadRestaurantsApiV1RestaurantsGetResponses, RegisterApiV1AuthRegisterPostData, RegisterApiV1AuthRegisterPostErrors, RegisterApiV1AuthRegisterPostResponses, ResolveQrCodeQrQrCodeGetData, ResolveQrCodeQrQrCodeGetErrors, ResolveQrCodeQrQrCodeGetResponses, UpdateMenuApiV1MenusRestaurantIdMenuIdPutData, UpdateMenuApiV1MenusRestaurantIdMenuIdPutErrors, UpdateMenuApiV1MenusRestaurantIdMenuIdPutResponses, UpdateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdPatchData, UpdateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdPatchErrors, UpdateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdPatchResponses, UpdateMenuItemsOrderApiV1MenuItemsRestaurantIdMenuIdSubmenuIdOrderPatchData, UpdateMenuItemsOrderApiV1MenuItemsRestaurantIdMenuIdSubmenuIdOrderPatchErrors, UpdateMenuItemsOrderApiV1MenuItemsRestaurantIdMenuIdSubmenuIdOrderPatchResponses, UpdateRestaurantApiV1RestaurantsRestaurantIdPutData, UpdateRestaurantApiV1RestaurantsRestaurantIdPutErrors, UpdateRestaurantApiV1RestaurantsRestaurantIdPutResponses, UpdateSubmenuApiV1SubmenusRestaurantIdMenuIdSubmenuIdPatchData, UpdateSubmenuApiV1SubmenusRestaurantIdMenuIdSubmenuIdPatchErrors, UpdateSubmenuApiV1SubmenusRestaurantIdMenuIdSubmenuIdPatchResponses, UpdateSubmenuOrderApiV1SubmenusRestaurantIdMenuIdOrderPatchData, UpdateSubmenuOrderApiV1SubmenusRestaurantIdMenuIdOrderPatchErrors, UpdateSubmenuOrderApiV1SubmenusRestaurantIdMenuIdOrderPatchResponses, VerifyUserApiV1AuthVerifyPostData, VerifyUserApiV1AuthVerifyPostErrors, VerifyUserApiV1AuthVerifyPostResponses } from './types.gen';
+import type { CreateMenuApiV1MenusRestaurantIdPostData, CreateMenuApiV1MenusRestaurantIdPostErrors, CreateMenuApiV1MenusRestaurantIdPostResponses, CreateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdPostData, CreateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdPostErrors, CreateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdPostResponses, CreateRestaurantApiV1RestaurantsCreatePostData, CreateRestaurantApiV1RestaurantsCreatePostErrors, CreateRestaurantApiV1RestaurantsCreatePostResponses, CreateSubmenuApiV1SubmenusRestaurantIdMenuIdPostData, CreateSubmenuApiV1SubmenusRestaurantIdMenuIdPostErrors, CreateSubmenuApiV1SubmenusRestaurantIdMenuIdPostResponses, DeleteMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdDeleteData, DeleteMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdDeleteErrors, DeleteMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdDeleteResponses, ForgotPasswordApiV1AuthForgotPasswordPostData, ForgotPasswordApiV1AuthForgotPasswordPostErrors, ForgotPasswordApiV1AuthForgotPasswordPostResponses, GetAllUsersApiV1UsersRestaurantIdGetData, GetAllUsersApiV1UsersRestaurantIdGetErrors, GetAllUsersApiV1UsersRestaurantIdGetResponses, GetMeApiV1AuthGetMeGetData, GetMeApiV1AuthGetMeGetResponses, GetMenuByIdApiV1MenusRestaurantIdMenuIdGetData, GetMenuByIdApiV1MenusRestaurantIdMenuIdGetErrors, GetMenuByIdApiV1MenusRestaurantIdMenuIdGetResponses, GetMenusApiV1MenusRestaurantIdGetData, GetMenusApiV1MenusRestaurantIdGetErrors, GetMenusApiV1MenusRestaurantIdGetResponses, GetMyDetailsApiV1AuthGetMyDetailsGetData, GetMyDetailsApiV1AuthGetMyDetailsGetResponses, GetPermissionsApiV1RolesAndPermissionsPermissionsGetData, GetPermissionsApiV1RolesAndPermissionsPermissionsGetResponses, GetPublicMenuApiV1MenusPublicCodeGetData, GetPublicMenuApiV1MenusPublicCodeGetErrors, GetPublicMenuApiV1MenusPublicCodeGetResponses, GetQrCodesQGetData, GetQrCodesQGetResponses, GetQrImageQQrIdGetData, GetQrImageQQrIdGetErrors, GetQrImageQQrIdGetResponses, GetRolesApiV1RolesAndPermissionsRolesRestaurantIdGetData, GetRolesApiV1RolesAndPermissionsRolesRestaurantIdGetErrors, GetRolesApiV1RolesAndPermissionsRolesRestaurantIdGetResponses, GetUsersOfRestaurantApiV1RestaurantsRestaurantIdUsersGetData, GetUsersOfRestaurantApiV1RestaurantsRestaurantIdUsersGetErrors, GetUsersOfRestaurantApiV1RestaurantsRestaurantIdUsersGetResponses, ListSubmenusApiV1SubmenusRestaurantIdMenuIdGetData, ListSubmenusApiV1SubmenusRestaurantIdMenuIdGetErrors, ListSubmenusApiV1SubmenusRestaurantIdMenuIdGetResponses, LoginApiV1AuthLoginPostData, LoginApiV1AuthLoginPostErrors, LoginApiV1AuthLoginPostResponses, ReadRestaurantByIdApiV1RestaurantsRestaurantIdGetData, ReadRestaurantByIdApiV1RestaurantsRestaurantIdGetErrors, ReadRestaurantByIdApiV1RestaurantsRestaurantIdGetResponses, ReadRestaurantsApiV1RestaurantsGetData, ReadRestaurantsApiV1RestaurantsGetResponses, RegisterApiV1AuthRegisterPostData, RegisterApiV1AuthRegisterPostErrors, RegisterApiV1AuthRegisterPostResponses, ResendVerificationApiV1AuthResendVerificationPostData, ResendVerificationApiV1AuthResendVerificationPostErrors, ResendVerificationApiV1AuthResendVerificationPostResponses, ResetPasswordApiV1AuthResetPasswordPostData, ResetPasswordApiV1AuthResetPasswordPostErrors, ResetPasswordApiV1AuthResetPasswordPostResponses, ResolveQrCodeQrQrCodeGetData, ResolveQrCodeQrQrCodeGetErrors, ResolveQrCodeQrQrCodeGetResponses, UpdateMenuApiV1MenusRestaurantIdMenuIdPutData, UpdateMenuApiV1MenusRestaurantIdMenuIdPutErrors, UpdateMenuApiV1MenusRestaurantIdMenuIdPutResponses, UpdateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdPatchData, UpdateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdPatchErrors, UpdateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdPatchResponses, UpdateMenuItemsOrderApiV1MenuItemsRestaurantIdMenuIdSubmenuIdOrderPatchData, UpdateMenuItemsOrderApiV1MenuItemsRestaurantIdMenuIdSubmenuIdOrderPatchErrors, UpdateMenuItemsOrderApiV1MenuItemsRestaurantIdMenuIdSubmenuIdOrderPatchResponses, UpdateRestaurantApiV1RestaurantsRestaurantIdPutData, UpdateRestaurantApiV1RestaurantsRestaurantIdPutErrors, UpdateRestaurantApiV1RestaurantsRestaurantIdPutResponses, UpdateSubmenuApiV1SubmenusRestaurantIdMenuIdSubmenuIdPatchData, UpdateSubmenuApiV1SubmenusRestaurantIdMenuIdSubmenuIdPatchErrors, UpdateSubmenuApiV1SubmenusRestaurantIdMenuIdSubmenuIdPatchResponses, UpdateSubmenuOrderApiV1SubmenusRestaurantIdMenuIdOrderPatchData, UpdateSubmenuOrderApiV1SubmenusRestaurantIdMenuIdOrderPatchErrors, UpdateSubmenuOrderApiV1SubmenusRestaurantIdMenuIdOrderPatchResponses, VerifyUserApiV1AuthVerifyPostData, VerifyUserApiV1AuthVerifyPostErrors, VerifyUserApiV1AuthVerifyPostResponses } from './types.gen';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -17,6 +17,25 @@ export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends 
      */
     meta?: keyof ClientMeta extends never ? Record<string, unknown> : ClientMeta;
 };
+
+/**
+ * Get Permissions
+ */
+export const getPermissionsApiV1RolesAndPermissionsPermissionsGet = <ThrowOnError extends boolean = false>(options?: Options<GetPermissionsApiV1RolesAndPermissionsPermissionsGetData, ThrowOnError>): RequestResult<GetPermissionsApiV1RolesAndPermissionsPermissionsGetResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetPermissionsApiV1RolesAndPermissionsPermissionsGetResponses, unknown, ThrowOnError>({
+    responseType: 'json',
+    url: '/api/v1/roles-and-permissions/permissions',
+    ...options
+});
+
+/**
+ * Get Roles
+ */
+export const getRolesApiV1RolesAndPermissionsRolesRestaurantIdGet = <ThrowOnError extends boolean = false>(options: Options<GetRolesApiV1RolesAndPermissionsRolesRestaurantIdGetData, ThrowOnError>): RequestResult<GetRolesApiV1RolesAndPermissionsRolesRestaurantIdGetResponses, GetRolesApiV1RolesAndPermissionsRolesRestaurantIdGetErrors, ThrowOnError> => (options.client ?? client).get<GetRolesApiV1RolesAndPermissionsRolesRestaurantIdGetResponses, GetRolesApiV1RolesAndPermissionsRolesRestaurantIdGetErrors, ThrowOnError>({
+    responseType: 'json',
+    security: [{ scheme: 'bearer', type: 'http' }],
+    url: '/api/v1/roles-and-permissions/roles/{restaurant_id}',
+    ...options
+});
 
 /**
  * Login
@@ -59,6 +78,45 @@ export const verifyUserApiV1AuthVerifyPost = <ThrowOnError extends boolean = fal
 });
 
 /**
+ * Resend Verification
+ */
+export const resendVerificationApiV1AuthResendVerificationPost = <ThrowOnError extends boolean = false>(options: Options<ResendVerificationApiV1AuthResendVerificationPostData, ThrowOnError>): RequestResult<ResendVerificationApiV1AuthResendVerificationPostResponses, ResendVerificationApiV1AuthResendVerificationPostErrors, ThrowOnError> => (options.client ?? client).post<ResendVerificationApiV1AuthResendVerificationPostResponses, ResendVerificationApiV1AuthResendVerificationPostErrors, ThrowOnError>({
+    responseType: 'json',
+    url: '/api/v1/auth/resend-verification',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Forgot Password
+ */
+export const forgotPasswordApiV1AuthForgotPasswordPost = <ThrowOnError extends boolean = false>(options: Options<ForgotPasswordApiV1AuthForgotPasswordPostData, ThrowOnError>): RequestResult<ForgotPasswordApiV1AuthForgotPasswordPostResponses, ForgotPasswordApiV1AuthForgotPasswordPostErrors, ThrowOnError> => (options.client ?? client).post<ForgotPasswordApiV1AuthForgotPasswordPostResponses, ForgotPasswordApiV1AuthForgotPasswordPostErrors, ThrowOnError>({
+    responseType: 'json',
+    url: '/api/v1/auth/forgot-password',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
+ * Reset Password
+ */
+export const resetPasswordApiV1AuthResetPasswordPost = <ThrowOnError extends boolean = false>(options: Options<ResetPasswordApiV1AuthResetPasswordPostData, ThrowOnError>): RequestResult<ResetPasswordApiV1AuthResetPasswordPostResponses, ResetPasswordApiV1AuthResetPasswordPostErrors, ThrowOnError> => (options.client ?? client).post<ResetPasswordApiV1AuthResetPasswordPostResponses, ResetPasswordApiV1AuthResetPasswordPostErrors, ThrowOnError>({
+    responseType: 'json',
+    url: '/api/v1/auth/reset-password',
+    ...options,
+    headers: {
+        'Content-Type': 'application/json',
+        ...options.headers
+    }
+});
+
+/**
  * Get Me
  */
 export const getMeApiV1AuthGetMeGet = <ThrowOnError extends boolean = false>(options?: Options<GetMeApiV1AuthGetMeGetData, ThrowOnError>): RequestResult<GetMeApiV1AuthGetMeGetResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetMeApiV1AuthGetMeGetResponses, unknown, ThrowOnError>({
@@ -69,22 +127,22 @@ export const getMeApiV1AuthGetMeGet = <ThrowOnError extends boolean = false>(opt
 });
 
 /**
- * Get All Users
+ * Get My Details
  */
-export const getAllUsersApiV1UsersGet = <ThrowOnError extends boolean = false>(options?: Options<GetAllUsersApiV1UsersGetData, ThrowOnError>): RequestResult<GetAllUsersApiV1UsersGetResponses, GetAllUsersApiV1UsersGetErrors, ThrowOnError> => (options?.client ?? client).get<GetAllUsersApiV1UsersGetResponses, GetAllUsersApiV1UsersGetErrors, ThrowOnError>({
+export const getMyDetailsApiV1AuthGetMyDetailsGet = <ThrowOnError extends boolean = false>(options?: Options<GetMyDetailsApiV1AuthGetMyDetailsGetData, ThrowOnError>): RequestResult<GetMyDetailsApiV1AuthGetMyDetailsGetResponses, unknown, ThrowOnError> => (options?.client ?? client).get<GetMyDetailsApiV1AuthGetMyDetailsGetResponses, unknown, ThrowOnError>({
     responseType: 'json',
     security: [{ scheme: 'bearer', type: 'http' }],
-    url: '/api/v1/users/',
+    url: '/api/v1/auth/get-my-details',
     ...options
 });
 
 /**
- * Delete User
+ * Get All Users
  */
-export const deleteUserApiV1UsersIdDelete = <ThrowOnError extends boolean = false>(options: Options<DeleteUserApiV1UsersIdDeleteData, ThrowOnError>): RequestResult<DeleteUserApiV1UsersIdDeleteResponses, DeleteUserApiV1UsersIdDeleteErrors, ThrowOnError> => (options.client ?? client).delete<DeleteUserApiV1UsersIdDeleteResponses, DeleteUserApiV1UsersIdDeleteErrors, ThrowOnError>({
+export const getAllUsersApiV1UsersRestaurantIdGet = <ThrowOnError extends boolean = false>(options: Options<GetAllUsersApiV1UsersRestaurantIdGetData, ThrowOnError>): RequestResult<GetAllUsersApiV1UsersRestaurantIdGetResponses, GetAllUsersApiV1UsersRestaurantIdGetErrors, ThrowOnError> => (options.client ?? client).get<GetAllUsersApiV1UsersRestaurantIdGetResponses, GetAllUsersApiV1UsersRestaurantIdGetErrors, ThrowOnError>({
     responseType: 'json',
     security: [{ scheme: 'bearer', type: 'http' }],
-    url: '/api/v1/users/{id}',
+    url: '/api/v1/users/{restaurant_id}',
     ...options
 });
 

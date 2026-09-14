@@ -1,43 +1,37 @@
 "use client";
 
 import { useState } from "react";
-import { Trash2 } from "lucide-react";
-
 import { Badge } from "@/components/atoms/Badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ConfirmDialog } from "@/components/organisms/ConfirmDialog";
 import { useGetAllUsers } from "@/hooks/services/users/useGetAllUsers";
-import { useDeleteUser } from "@/hooks/services/users/useDeleteUser";
 import { useCurrentRestaurant } from "@/hooks/services/restaurants/useCurrentRestaurant";
-import type { UserUnrestrictedResponse } from "@/client-services";
+import { AppPagination } from "@/components/molecules/AppPagination";
 
 const Page = () => {
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+
   const {
     currentRestaurant,
     isLoading: isLoadingRestaurant,
     error: restaurantError,
   } = useCurrentRestaurant();
 
-  const { data, isLoading, error, refetch } = useGetAllUsers(
+  const { data, isLoading, error, refetch, isPlaceholderData } = useGetAllUsers(
     {
-      org_id: currentRestaurant?.id ?? null,
+      restaurant_id: currentRestaurant?.id ?? "",
     },
     {
-      enabled: !isLoadingRestaurant,
+      page,
+      page_size: pageSize,
+    },
+    {
+      enabled: !isLoadingRestaurant && !!currentRestaurant?.id,
     },
   );
-  const deleteUser = useDeleteUser();
-  const [userToDelete, setUserToDelete] =
-    useState<UserUnrestrictedResponse | null>(null);
 
-  const handleDelete = async () => {
-    if (!userToDelete) return;
-    await deleteUser.mutateAsync({ id: userToDelete.id });
-    setUserToDelete(null);
-  };
-
-  const users = data ?? [];
+  const users = data?.data ?? [];
   const activeError = error ?? restaurantError;
   const isPageLoading = isLoading || isLoadingRestaurant;
 
@@ -76,61 +70,48 @@ const Page = () => {
           </p>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-xl border">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b bg-muted/50 text-left text-xs font-medium text-muted-foreground">
-                <th className="px-4 py-3">Name</th>
-                <th className="px-4 py-3">Email</th>
-                <th className="px-4 py-3">Status</th>
-                <th className="px-4 py-3">Created</th>
-                <th className="px-4 py-3 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((user) => (
-                <tr key={user.id} className="border-b last:border-b-0">
-                  <td className="px-4 py-3 font-medium">{user.name}</td>
-                  <td className="px-4 py-3 text-muted-foreground">
-                    {user.email}
-                  </td>
-                  <td className="px-4 py-3">
-                    <Badge tone={user.is_verified ? "green" : "orange"}>
-                      {user.is_verified ? "Verified" : "Unverified"}
-                    </Badge>
-                  </td>
-                  <td className="px-4 py-3 text-muted-foreground">
-                    {new Date(user.created_at).toLocaleDateString()}
-                  </td>
-                  <td className="px-4 py-3 text-right">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      className="text-destructive hover:text-destructive"
-                      onClick={() => setUserToDelete(user)}
-                    >
-                      <Trash2 className="size-4" />
-                      Delete
-                    </Button>
-                  </td>
+        <div className="space-y-4">
+          <div className="overflow-hidden rounded-xl border">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b bg-muted/50 text-left text-xs font-medium text-muted-foreground">
+                  <th className="px-4 py-3">Name</th>
+                  <th className="px-4 py-3">Email</th>
+                  <th className="px-4 py-3">Status</th>
+                  <th className="px-4 py-3">Created</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className={isPlaceholderData ? "opacity-50" : ""}>
+                {users.map((user) => (
+                  <tr key={user.id} className="border-b last:border-b-0">
+                    <td className="px-4 py-3 font-medium">{user.name}</td>
+                    <td className="px-4 py-3 text-muted-foreground">
+                      {user.email}
+                    </td>
+                    <td className="px-4 py-3">
+                      <Badge tone={user.is_verified ? "green" : "orange"}>
+                        {user.is_verified ? "Verified" : "Unverified"}
+                      </Badge>
+                    </td>
+                    <td className="px-4 py-3 text-muted-foreground">
+                      {new Date(user.created_at).toLocaleDateString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <AppPagination
+            pagination={data?.pagination}
+            onPageChange={setPage}
+            onPageSizeChange={(size) => {
+              setPageSize(size);
+              setPage(1); // Reset to page 1 on page size change
+            }}
+          />
         </div>
       )}
-
-      <ConfirmDialog
-        open={userToDelete !== null}
-        onOpenChange={(open) => {
-          if (!open) setUserToDelete(null);
-        }}
-        title="Delete user"
-        description={`Are you sure you want to delete "${userToDelete?.name}"? This action cannot be undone.`}
-        confirmLabel="Delete"
-        loading={deleteUser.isPending}
-        onConfirm={handleDelete}
-      />
     </div>
   );
 };

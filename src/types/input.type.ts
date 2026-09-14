@@ -11,6 +11,7 @@ export interface IBaseInput<T extends FieldValues = FieldValues> {
   label?: string;
   placeholder?: string;
   required?: boolean;
+  autoFocus?: boolean;
   limitRenderer?: {
     limit: number;
     className?: string;

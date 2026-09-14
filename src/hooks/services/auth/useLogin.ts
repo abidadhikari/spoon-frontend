@@ -2,24 +2,20 @@
 import {
   loginApiV1AuthLoginPost,
   LoginApiV1AuthLoginPostData,
+  LoginResponse,
 } from "@/client-services";
 import { BodyOf } from "@/types/query.type";
-import { useMutation } from "@tanstack/react-query";
-import { toast } from "sonner";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { QUERY_KEYS } from "@/constants/query-keys";
 
 type BodyType = BodyOf<LoginApiV1AuthLoginPostData>;
 
-interface LoginResponse {
-  access_token: string;
-  token_type?: string;
-}
-
 export const useLogin = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: async (body: BodyType) => {
-      const { data, error } = await loginApiV1AuthLoginPost({
-        body,
-      });
+      const { data, error } = await loginApiV1AuthLoginPost({ body });
       if (error || !data) {
         throw error;
       }
@@ -27,10 +23,9 @@ export const useLogin = () => {
     },
     onSuccess: (data) => {
       localStorage.setItem("access_token", data.access_token);
-      toast.success("Logged in successfully.");
+      // Invalidate get-me so it refetches with the new token
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.ME] });
     },
-    onError: () => {
-      toast.error("Invalid credentials. Please try again.");
-    },
+    // No onError toast — the form handles error display inline
   });
 };

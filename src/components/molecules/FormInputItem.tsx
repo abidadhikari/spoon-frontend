@@ -31,6 +31,7 @@ export default function FormInputItem<T extends FieldValues>({
   onKeyDown,
   limitRenderer,
   disabled = false,
+  autoFocus = false,
 }: FormInputItemProps<T>) {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -60,6 +61,7 @@ export default function FormInputItem<T extends FieldValues>({
             placeholder={placeholder}
             maxLength={maxLength}
             disabled={disabled}
+            autoFocus={autoFocus}
             onKeyDown={onKeyDown}
             className={cn(icon && "pl-10", type === "password" && "pr-10")}
             onChange={(e) =>
@@ -71,7 +73,8 @@ export default function FormInputItem<T extends FieldValues>({
             <button
               type="button"
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-3 inset-y-0 flex items-center"
+              className="absolute right-3 inset-y-0 flex items-center text-muted-foreground hover:text-foreground"
+              aria-label={showPassword ? "Hide password" : "Show password"}
             >
               {showPassword ? (
                 <EyeOff className="size-4" />
