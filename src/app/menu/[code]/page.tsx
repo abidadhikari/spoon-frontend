@@ -1,5 +1,4 @@
 import RestaurantMenu from "@/components/organisms/RestaurantMenu";
-import { TemplateProvider } from "@/context/TemplateProvider";
 
 type Props = {
   params: Promise<{
@@ -9,9 +8,5 @@ type Props = {
 
 export default async function Page({ params }: Props) {
   const { code } = await params;
-  return (
-    <TemplateProvider templateId="classic">
-      <RestaurantMenu code={code} />
-    </TemplateProvider>
-  );
+  return <RestaurantMenu code={code} />;
 }

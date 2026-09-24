@@ -12,6 +12,7 @@ import { Field, FieldDescription, FieldGroup } from "@/components/ui/field";
 import FormInputItem from "@/components/molecules/FormInputItem";
 import { useLogin } from "@/hooks/services/auth/useLogin";
 import { useGetMe } from "@/hooks/services/auth/useGetMe";
+import { extractApiError } from "@/lib/extractApiError";
 
 const loginSchema = z.object({
   email: z.string().email("Enter a valid email address"),
@@ -19,24 +20,6 @@ const loginSchema = z.object({
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
-
-function extractErrorMessage(error: unknown): string {
-  if (!error) return "Something went wrong. Please try again.";
-  if (typeof error === "object" && error !== null) {
-    // Axios error shape
-    const e = error as Record<string, unknown>;
-    const detail = (e as { response?: { data?: { detail?: string } } })
-      ?.response?.data?.detail;
-    if (typeof detail === "string") return detail;
-    const msg = e?.message;
-    if (typeof msg === "string") {
-      if (msg.toLowerCase().includes("network"))
-        return "Unable to connect. Please check your connection and try again.";
-      return msg;
-    }
-  }
-  return "Invalid credentials. Please try again.";
-}
 
 export function LoginForm() {
   const router = useRouter();
@@ -73,7 +56,9 @@ export function LoginForm() {
   };
 
   const isLoading = isPending || isSubmitting;
-  const apiErrorMessage = error ? extractErrorMessage(error) : null;
+  const apiErrorMessage = error
+    ? extractApiError(error, "Invalid credentials. Please try again.")
+    : null;
 
   return (
     <div className="flex flex-col gap-7">
@@ -132,10 +117,6 @@ export function LoginForm() {
               type="submit"
               disabled={isLoading}
               className="w-full h-9 text-sm font-medium"
-              style={{
-                background: isLoading ? undefined : "var(--brand)",
-                color: isLoading ? undefined : "var(--brand-foreground)",
-              }}
             >
               {isLoading ? "Signing in…" : "Sign in"}
             </Button>

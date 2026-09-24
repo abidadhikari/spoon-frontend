@@ -12,7 +12,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { useGetAllRestaurants } from "@/hooks/services/restaurants/useGetAllRestaurants";
-import { useGetAllMenus } from "@/hooks/services/menus/useGetAllMenus";
+import { useGetAllMenusList } from "@/hooks/services/menus/useGetAllMenus";
 
 export function DashboardBreadcrumb() {
   const pathname = usePathname();
@@ -22,12 +22,12 @@ export function DashboardBreadcrumb() {
   const restaurantId = segments[2];
   const menuId = segments[4];
 
-  const { data: menus } = useGetAllMenus({
+  const { data: menus } = useGetAllMenusList({
     restaurant_id: restaurantId ?? "",
   });
 
   const restaurant = restaurants?.find((r) => r.id === restaurantId);
-  const menu = menus?.find((m) => m.id === menuId);
+  const menu = menus.find((m) => m.id === menuId);
 
   return (
     <Breadcrumb>
@@ -60,7 +60,9 @@ export function DashboardBreadcrumb() {
                   {restaurant?.name ?? "Restaurant"}
                 </BreadcrumbLink>
               ) : (
-                <BreadcrumbPage>{restaurant?.name ?? "Restaurant"}</BreadcrumbPage>
+                <BreadcrumbPage>
+                  {restaurant?.name ?? "Restaurant"}
+                </BreadcrumbPage>
               )}
             </BreadcrumbItem>
           </>

@@ -18,6 +18,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { ConfirmDialog } from "@/components/organisms/ConfirmDialog";
 import AddSubMenuDialog from "@/components/organisms/AddSubMenuDialog";
+import { EditMenuDialog } from "@/components/organisms/EditMenuDialog";
 import SortableSubmenu from "@/components/SortableSubmenu";
 import type { MenuItemResponse, SubMenuResponse } from "@/client-services";
 
@@ -214,7 +215,10 @@ export default function Page() {
             </p>
           </div>
 
-          <AddSubMenuDialog restaurantId={restaurant_id} menuId={menu_id} />
+          <div className="flex flex-wrap gap-2">
+            <EditMenuDialog restaurantId={restaurant_id} menu={data} />
+            <AddSubMenuDialog restaurantId={restaurant_id} menuId={menu_id} />
+          </div>
         </div>
 
         {qrImageUrl && (

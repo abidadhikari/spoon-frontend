@@ -7,6 +7,7 @@ import { QUERY_KEYS } from "@/constants/query-keys";
 import { BodyOf, PathOf } from "@/types/query.type";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { extractApiError } from "@/lib/extractApiError";
 
 type BodyType = BodyOf<CreateMenuApiV1MenusRestaurantIdPostData>;
 type PathType = PathOf<CreateMenuApiV1MenusRestaurantIdPostData>;
@@ -39,8 +40,8 @@ export const usePostCreateMenu = () => {
         queryKey: [QUERY_KEYS.SINGLE_RESTAURANT, variables.path.restaurant_id],
       });
     },
-    onError: () => {
-      toast.error("Failed to create menu. Please try again.");
+    onError: (error) => {
+      toast.error(extractApiError(error, "Failed to create menu. Please try again."));
     },
   });
 };

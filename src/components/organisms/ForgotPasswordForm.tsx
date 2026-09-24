@@ -11,25 +11,13 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldGroup } from "@/components/ui/field";
 import FormInputItem from "@/components/molecules/FormInputItem";
 import { useForgotPassword } from "@/hooks/services/auth/useForgotPassword";
+import { extractApiError } from "@/lib/extractApiError";
 
 const forgotSchema = z.object({
   email: z.string().email("Enter a valid email address"),
 });
 
 type ForgotFormValues = z.infer<typeof forgotSchema>;
-
-function extractErrorMessage(error: unknown): string {
-  if (!error) return "Something went wrong. Please try again.";
-  if (typeof error === "object" && error !== null) {
-    const detail = (error as { response?: { data?: { detail?: string } } })
-      ?.response?.data?.detail;
-    if (typeof detail === "string") return detail;
-    const msg = (error as { message?: string })?.message;
-    if (typeof msg === "string" && msg.toLowerCase().includes("network"))
-      return "Unable to connect. Please check your connection and try again.";
-  }
-  return "Something went wrong. Please try again.";
-}
 
 export function ForgotPasswordForm() {
   const [submittedEmail, setSubmittedEmail] = useState<string | null>(null);
@@ -61,7 +49,7 @@ export function ForgotPasswordForm() {
   };
 
   const isLoading = isPending || isSubmitting;
-  const apiErrorMessage = error ? extractErrorMessage(error) : null;
+  const apiErrorMessage = error ? extractApiError(error, "Something went wrong. Please try again.") : null;
 
   // Success state — show confirmation without exposing whether account exists
   if (submittedEmail) {
@@ -80,12 +68,10 @@ export function ForgotPasswordForm() {
           <div className="flex items-start gap-3">
             <div
               className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg"
-              style={{ background: "var(--brand)" }}
               aria-hidden="true"
             >
               <Mail
                 className="size-4"
-                style={{ color: "var(--brand-foreground)" }}
               />
             </div>
             <div className="flex flex-col gap-1">
@@ -108,10 +94,6 @@ export function ForgotPasswordForm() {
             (window.location.href = `/reset-password?email=${encodeURIComponent(submittedEmail)}`)
           }
           className="w-full h-9"
-          style={{
-            background: "var(--brand)",
-            color: "var(--brand-foreground)",
-          }}
         >
           Enter reset code
         </Button>
@@ -166,10 +148,6 @@ export function ForgotPasswordForm() {
               type="submit"
               disabled={isLoading}
               className="w-full h-9 text-sm font-medium"
-              style={{
-                background: isLoading ? undefined : "var(--brand)",
-                color: isLoading ? undefined : "var(--brand-foreground)",
-              }}
             >
               {isLoading ? "Sending…" : "Send reset code"}
             </Button>

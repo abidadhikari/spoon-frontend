@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldGroup } from "@/components/ui/field";
 import FormInputItem from "@/components/molecules/FormInputItem";
 import { useResetPassword } from "@/hooks/services/auth/useResetPassword";
+import { extractApiError } from "@/lib/extractApiError";
 
 const resetSchema = z
   .object({
@@ -29,21 +30,6 @@ const resetSchema = z
   });
 
 type ResetFormValues = z.infer<typeof resetSchema>;
-
-function extractErrorMessage(error: unknown): string {
-  if (!error) return "Failed to reset password. Please try again.";
-  if (typeof error === "object" && error !== null) {
-    const detail = (error as { response?: { data?: { detail?: string } } })
-      ?.response?.data?.detail;
-    if (typeof detail === "string") return detail;
-    const msg = (error as { message?: string })?.message;
-    if (typeof msg === "string") {
-      if (msg.toLowerCase().includes("network"))
-        return "Unable to connect. Please check your connection and try again.";
-    }
-  }
-  return "Invalid or expired reset code. Please request a new one.";
-}
 
 interface ResetPasswordFormProps {
   /** Pre-filled from ?email= query param */
@@ -84,7 +70,7 @@ export function ResetPasswordForm({
   };
 
   const isLoading = isPending || isSubmitting;
-  const apiErrorMessage = error ? extractErrorMessage(error) : null;
+  const apiErrorMessage = error ? extractApiError(error, "Something went wrong. Please try again.") : null;
 
   if (success) {
     return (
@@ -102,7 +88,6 @@ export function ResetPasswordForm({
           <div className="flex items-center gap-2.5">
             <CheckCircle
               className="size-5 shrink-0"
-              style={{ color: "var(--brand)" }}
             />
             <span className="text-sm font-medium text-foreground">
               Password changed successfully
@@ -116,10 +101,6 @@ export function ResetPasswordForm({
         <Link href="/login">
           <Button
             className="w-full h-9"
-            style={{
-              background: "var(--brand)",
-              color: "var(--brand-foreground)",
-            }}
           >
             Continue to sign in
           </Button>
@@ -201,10 +182,6 @@ export function ResetPasswordForm({
               type="submit"
               disabled={isLoading}
               className="w-full h-9 text-sm font-medium"
-              style={{
-                background: isLoading ? undefined : "var(--brand)",
-                color: isLoading ? undefined : "var(--brand-foreground)",
-              }}
             >
               {isLoading ? "Updating password…" : "Update password"}
             </Button>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
+import { BookOpen } from "lucide-react";
 
 import { Metric } from "@/components/atoms/Metric";
 import { Badge } from "@/components/atoms/Badge";
@@ -9,7 +10,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { MenuCard } from "@/components/organisms/MenuCard";
 import { AddMenuDialog } from "@/components/organisms/AddMenuDialog";
 import { useGetRestaurantById } from "@/hooks/services/restaurants/useGetRestaurantById";
-import { useGetAllMenus } from "@/hooks/services/menus/useGetAllMenus";
+import { useGetAllMenusList } from "@/hooks/services/menus/useGetAllMenus";
 
 const Page = () => {
   const { restaurantId } = useParams<{ restaurantId: string }>();
@@ -26,7 +27,7 @@ const Page = () => {
     isLoading: isLoadingMenus,
     error: menusError,
     refetch: refetchMenus,
-  } = useGetAllMenus({ restaurant_id: restaurantId });
+  } = useGetAllMenusList({ restaurant_id: restaurantId });
 
   const isLoading = isLoadingRestaurant || isLoadingMenus;
   const error = restaurantError ?? menusError;
@@ -36,7 +37,7 @@ const Page = () => {
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="font-heading text-2xl font-semibold">
-            {isLoading ? "Loading..." : restaurant?.name ?? "Restaurant"}
+            {isLoading ? "Loading..." : (restaurant?.name ?? "Restaurant")}
           </h1>
           {restaurant && (
             <div className="mt-2 flex items-center gap-2">
@@ -51,14 +52,11 @@ const Page = () => {
       </div>
 
       <div className="grid grid-cols-2 gap-4 sm:max-w-xl">
-        <Metric
-          label="Menus"
-          value={isLoading ? "—" : (menus?.length ?? 0)}
-        />
+        <Metric label="Menus" value={isLoading ? "—" : menus.length} />
       </div>
 
       {error ? (
-        <div className="rounded-xl border border-dashed p-8 text-center">
+        <div className="rounded-lg border border-dashed p-8 text-center">
           <p className="text-sm text-muted-foreground">
             Failed to load menus: {error.message}
           </p>
@@ -84,20 +82,33 @@ const Page = () => {
             </div>
           ))}
         </div>
-      ) : menus && menus.length > 0 ? (
+      ) : menus.length > 0 ? (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {menus.map((menu) => (
             <MenuCard key={menu.id} restaurantId={restaurantId} menu={menu} />
           ))}
         </div>
       ) : (
-        <div className="rounded-xl border border-dashed p-12 text-center">
-          <h3 className="font-heading text-base font-medium">No menus yet</h3>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Create your first menu to start adding submenus and items.
+        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed py-16 text-center shadow-xs bg-muted/20">
+          <div className="flex size-12 items-center justify-center rounded-full bg-brand/20 text-brand-foreground mb-4">
+            <BookOpen className="size-6" />
+          </div>
+          <h3 className="font-heading text-lg font-semibold text-foreground">
+            No menus yet
+          </h3>
+          <p className="mt-1.5 text-sm text-muted-foreground max-w-sm">
+            Create your first menu to start adding categories, items, and
+            pricing for this restaurant.
           </p>
-          <div className="mt-4">
-            <AddMenuDialog restaurantId={restaurantId} />
+          <div className="mt-6">
+            <AddMenuDialog
+              restaurantId={restaurantId}
+              trigger={
+                <Button size="lg" className="shadow-sm">
+                  New menu
+                </Button>
+              }
+            />
           </div>
         </div>
       )}

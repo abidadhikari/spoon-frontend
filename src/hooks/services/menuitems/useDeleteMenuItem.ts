@@ -7,6 +7,7 @@ import { QUERY_KEYS } from "@/constants/query-keys";
 import { PathOf } from "@/types/query.type";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { extractApiError } from "@/lib/extractApiError";
 
 type PathType =
   PathOf<DeleteMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdDeleteData>;
@@ -35,8 +36,8 @@ export const useDeleteMenuItem = () => {
         queryKey: [QUERY_KEYS.SINGLE_MENU],
       });
     },
-    onError: () => {
-      toast.error("Failed to delete menu item. Please try again.");
+    onError: (error) => {
+      toast.error(extractApiError(error, "Failed to delete menu item. Please try again."));
     },
   });
 };

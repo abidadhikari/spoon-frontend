@@ -15,22 +15,26 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { RestaurantResponse } from "@/client-services";
 import { EditRestaurantDialog } from "@/components/organisms/EditRestaurantDialog";
-import { useGetAllMenus } from "@/hooks/services/menus/useGetAllMenus";
+import { useGetAllMenusList } from "@/hooks/services/menus/useGetAllMenus";
 
-export function RestaurantCard({ restaurant }: { restaurant: RestaurantResponse }) {
-  const { data: menus } = useGetAllMenus({
+export function RestaurantCard({
+  restaurant,
+}: {
+  restaurant: RestaurantResponse;
+}) {
+  const { data: menus } = useGetAllMenusList({
     restaurant_id: restaurant.id,
   });
 
   return (
-    <Card className="transition-colors hover:ring-foreground/20">
+    <Card className="transition-colors hover:ring-accent/50 hover:shadow-md">
       <CardHeader>
         <div className="flex items-start justify-between gap-3">
           <div>
             <CardTitle>{restaurant.name}</CardTitle>
             <CardDescription>{restaurant.alias}</CardDescription>
           </div>
-          <Badge tone="zinc">{menus?.length ?? 0} menus</Badge>
+          <Badge tone="zinc">{menus.length} menus</Badge>
         </div>
       </CardHeader>
       <CardContent>
@@ -41,7 +45,7 @@ export function RestaurantCard({ restaurant }: { restaurant: RestaurantResponse 
       <CardFooter className="justify-between gap-3">
         <Link
           href={`/dashboard/restaurants/${restaurant.id}`}
-          className="inline-flex items-center gap-1.5 text-sm font-medium text-foreground hover:underline"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:text-accent transition-colors"
         >
           <BookOpen className="size-4" />
           Open menus

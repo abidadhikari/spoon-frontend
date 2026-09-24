@@ -7,6 +7,7 @@ import { QUERY_KEYS } from "@/constants/query-keys";
 import { BodyOf, PathOf } from "@/types/query.type";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { extractApiError } from "@/lib/extractApiError";
 
 type BodyType =
   BodyOf<UpdateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdPatchData>;
@@ -41,8 +42,8 @@ export const usePatchUpdateMenuItem = () => {
         queryKey: [QUERY_KEYS.SINGLE_MENU],
       });
     },
-    onError: () => {
-      toast.error("Failed to update menu item. Please try again.");
+    onError: (error) => {
+      toast.error(extractApiError(error, "Failed to update menu item. Please try again."));
     },
   });
 };

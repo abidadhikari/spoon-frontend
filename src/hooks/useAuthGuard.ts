@@ -1,8 +1,18 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import { useGetMe } from "@/hooks/services/auth/useGetMe";
+
+const subscribeToAuthStorage = (callback: () => void) => {
+  window.addEventListener("storage", callback);
+  return () => window.removeEventListener("storage", callback);
+};
+
+const getAuthTokenSnapshot = () =>
+  !!window.localStorage.getItem("access_token");
+
+const getServerAuthTokenSnapshot = () => false;
 
 /**
  * Client-side route guard for authenticated pages.
@@ -15,9 +25,11 @@ import { useGetMe } from "@/hooks/services/auth/useGetMe";
 export const useAuthGuard = () => {
   const router = useRouter();
   const { data: user, isLoading, isError } = useGetMe();
-
-  const hasToken =
-    typeof window !== "undefined" && !!localStorage.getItem("access_token");
+  const hasToken = useSyncExternalStore(
+    subscribeToAuthStorage,
+    getAuthTokenSnapshot,
+    getServerAuthTokenSnapshot,
+  );
 
   useEffect(() => {
     // Wait until we're done loading before deciding to redirect
@@ -36,6 +48,10 @@ export const useAuthGuard = () => {
     }
   }, [isLoading, isError, hasToken, router]);
 
-  return { isLoading: isLoading || (!user && hasToken && !isError), user };
+  return {
+    isLoading:
+      isLoading || (!user && hasToken && !isError),
+    user,
+  };
 };
 

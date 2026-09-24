@@ -1,11 +1,12 @@
-type BadgeTone = "blue" | "green" | "orange" | "red" | "zinc";
+type BadgeTone = "blue" | "green" | "orange" | "red" | "zinc" | "brand";
 
 const toneClass: Record<BadgeTone, string> = {
-  blue: "border-sky-200 bg-sky-50 text-sky-700",
-  green: "border-emerald-200 bg-emerald-50 text-emerald-700",
-  orange: "border-amber-200 bg-amber-50 text-amber-700",
-  red: "border-rose-200 bg-rose-50 text-rose-700",
-  zinc: "border-zinc-200 bg-zinc-50 text-zinc-700",
+  blue: "border-[#93b7be]/40 bg-[#93b7be]/10 text-[#2d3047]", // Light Blue
+  green: "border-accent/40 bg-accent/10 text-accent", // Dark Cyan for success/active
+  orange: "border-brand/40 bg-brand/20 text-brand-foreground shadow-xs", // Golden Glow for warning/unverified
+  red: "border-destructive/20 bg-destructive/10 text-destructive",
+  zinc: "border-border bg-muted/50 text-muted-foreground",
+  brand: "border-brand/40 bg-brand/20 text-brand-foreground shadow-xs",
 };
 
 export function Badge({
@@ -17,7 +18,7 @@ export function Badge({
 }>) {
   return (
     <span
-      className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold ${toneClass[tone]}`}
+      className={`inline-flex items-center justify-center rounded-full border px-2.5 py-0.5 text-xs font-medium transition-colors ${toneClass[tone]}`}
     >
       {children}
     </span>

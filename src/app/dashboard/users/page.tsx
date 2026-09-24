@@ -1,12 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { Users } from "lucide-react";
+
 import { Badge } from "@/components/atoms/Badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetAllUsers } from "@/hooks/services/users/useGetAllUsers";
 import { useCurrentRestaurant } from "@/hooks/services/restaurants/useCurrentRestaurant";
 import { AppPagination } from "@/components/molecules/AppPagination";
+import { formatDate } from "@/lib/date";
 
 const Page = () => {
   const [page, setPage] = useState(1);
@@ -45,7 +48,7 @@ const Page = () => {
       </div>
 
       {activeError ? (
-        <div className="rounded-xl border border-dashed p-8 text-center">
+        <div className="rounded-lg border border-dashed p-8 text-center">
           <p className="text-sm text-muted-foreground">
             Failed to load users: {activeError.message}
           </p>
@@ -63,10 +66,15 @@ const Page = () => {
           ))}
         </div>
       ) : users.length === 0 ? (
-        <div className="rounded-xl border border-dashed p-12 text-center">
-          <h3 className="font-heading text-base font-medium">No users yet</h3>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Users will appear here once they register.
+        <div className="flex flex-col items-center justify-center rounded-lg border border-dashed py-16 text-center shadow-xs bg-muted/20">
+          <div className="flex size-12 items-center justify-center rounded-full bg-brand/20 text-brand-foreground mb-4">
+            <Users className="size-6" />
+          </div>
+          <h3 className="font-heading text-lg font-semibold text-foreground">
+            No users yet
+          </h3>
+          <p className="mt-1.5 text-sm text-muted-foreground max-w-sm">
+            Users will appear here once they register on the platform.
           </p>
         </div>
       ) : (
@@ -83,7 +91,10 @@ const Page = () => {
               </thead>
               <tbody className={isPlaceholderData ? "opacity-50" : ""}>
                 {users.map((user) => (
-                  <tr key={user.id} className="border-b last:border-b-0">
+                  <tr
+                    key={user.id}
+                    className="border-b last:border-b-0 hover:bg-muted/30 transition-colors"
+                  >
                     <td className="px-4 py-3 font-medium">{user.name}</td>
                     <td className="px-4 py-3 text-muted-foreground">
                       {user.email}
@@ -94,7 +105,7 @@ const Page = () => {
                       </Badge>
                     </td>
                     <td className="px-4 py-3 text-muted-foreground">
-                      {new Date(user.created_at).toLocaleDateString()}
+                      {formatDate(user.created_at)}
                     </td>
                   </tr>
                 ))}

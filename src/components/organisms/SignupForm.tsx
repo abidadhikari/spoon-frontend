@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldDescription, FieldGroup } from "@/components/ui/field";
 import FormInputItem from "@/components/molecules/FormInputItem";
 import { useRegister } from "@/hooks/services/auth/useRegister";
+import { extractApiError } from "@/lib/extractApiError";
 
 const signupSchema = z
   .object({
@@ -31,21 +32,6 @@ const signupSchema = z
   });
 
 type SignupFormValues = z.infer<typeof signupSchema>;
-
-function extractErrorMessage(error: unknown): string {
-  if (!error) return "Failed to create account. Please try again.";
-  if (typeof error === "object" && error !== null) {
-    const detail = (error as { response?: { data?: { detail?: string } } })
-      ?.response?.data?.detail;
-    if (typeof detail === "string") return detail;
-    const msg = (error as { message?: string })?.message;
-    if (typeof msg === "string") {
-      if (msg.toLowerCase().includes("network"))
-        return "Unable to connect. Please check your connection and try again.";
-    }
-  }
-  return "Failed to create account. Please try again.";
-}
 
 export function SignupForm() {
   const router = useRouter();
@@ -86,7 +72,7 @@ export function SignupForm() {
   };
 
   const isLoading = isPending || isSubmitting;
-  const apiErrorMessage = error ? extractErrorMessage(error) : null;
+  const apiErrorMessage = error ? extractApiError(error, "Something went wrong. Please try again.") : null;
 
   // Success state
   if (registeredEmail) {
@@ -105,7 +91,6 @@ export function SignupForm() {
           <div className="flex items-center gap-2.5">
             <CheckCircle
               className="size-5 shrink-0"
-              style={{ color: "var(--brand)" }}
             />
             <span className="text-sm font-medium text-foreground">
               Verification email sent
@@ -125,10 +110,6 @@ export function SignupForm() {
             router.push(`/verify?email=${encodeURIComponent(registeredEmail)}`)
           }
           className="w-full h-9"
-          style={{
-            background: "var(--brand)",
-            color: "var(--brand-foreground)",
-          }}
         >
           Verify account
         </Button>
@@ -225,10 +206,6 @@ export function SignupForm() {
               type="submit"
               disabled={isLoading}
               className="w-full h-9 text-sm font-medium"
-              style={{
-                background: isLoading ? undefined : "var(--brand)",
-                color: isLoading ? undefined : "var(--brand-foreground)",
-              }}
             >
               {isLoading ? "Creating account…" : "Create account"}
             </Button>

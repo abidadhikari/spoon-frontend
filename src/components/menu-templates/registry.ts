@@ -1,32 +1,25 @@
-import BigBoy from "@/components/menu-templates/BigBoy";
 import Classic from "@/components/menu-templates/Classic";
-import Elegant from "@/components/menu-templates/Elegant";
+import Compact from "@/components/menu-templates/Compact";
+import Cafe from "@/components/menu-templates/Cafe";
+import Dark from "@/components/menu-templates/Dark";
+import Modern from "@/components/menu-templates/Modern";
+import StreetFood from "@/components/menu-templates/StreetFood";
+import { DEFAULT_MENU_TEMPLATE_ID } from "@/constants/menu-template";
+import type { MenuTemplateProps } from "@/components/menu-templates/types";
+import type { ComponentType } from "react";
 
-const menuTemplates = [
-  {
-    id: "classic",
-    name: "Classic",
-    template: Classic,
-    thumbnail: "/templates/classic.png",
-  },
-  {
-    id: "elegant",
-    name: "Elegant",
-    template: Elegant,
-    thumbnail: "/templates/elegant.png",
-  },
-  {
-    id: "big-boy",
-    name: "Big Boy",
-    // template: () =>
-    //   import("@/components/menu-templates/BigBoy").then((mod) => mod.default),
-    template: BigBoy,
-    thumbnail: "/templates/big-boy.png",
-  },
-] as const;
-
-const getDefaultTemplate = () => {
-  return menuTemplates[0];
+export const MENU_TEMPLATE_RENDERERS: Record<
+  string,
+  ComponentType<MenuTemplateProps>
+> = {
+  classic: Classic,
+  modern: Modern,
+  cafe: Cafe,
+  "street-food": StreetFood,
+  dark: Dark,
+  compact: Compact,
 };
 
-export { menuTemplates, getDefaultTemplate };
+export const getMenuTemplateRenderer = (templateId?: string) =>
+  MENU_TEMPLATE_RENDERERS[templateId ?? DEFAULT_MENU_TEMPLATE_ID] ??
+  MENU_TEMPLATE_RENDERERS[DEFAULT_MENU_TEMPLATE_ID];

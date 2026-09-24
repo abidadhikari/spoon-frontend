@@ -12,6 +12,8 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { CreatableCombobox } from "@/components/CreatableCombobox";
+import FormCheckboxItem from "@/components/molecules/FormCheckboxItem";
+import FormInputItem from "@/components/molecules/FormInputItem";
 import FormTextareaItem from "@/components/molecules/FormTextareaItem";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -189,15 +191,7 @@ export default function MenuItemForm({
 
   return (
     <form onSubmit={handleSubmit(submitForm)} className="space-y-6">
-      <div>
-        <Label>Name</Label>
-
-        <Input {...register("name")} />
-
-        {errors.name && (
-          <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>
-        )}
-      </div>
+      <FormInputItem control={control} name="name" label="Name" />
 
       <FormTextareaItem
         control={control}
@@ -225,11 +219,7 @@ export default function MenuItemForm({
         </div>
       </div>
 
-      <div className="flex items-center gap-2">
-        <input id="visible" type="checkbox" {...register("is_visible")} />
-
-        <Label htmlFor="visible">Visible</Label>
-      </div>
+      <FormCheckboxItem control={control} name="is_visible" label="Visible" />
 
       <div className="space-y-4">
         <div className="flex items-center justify-between">

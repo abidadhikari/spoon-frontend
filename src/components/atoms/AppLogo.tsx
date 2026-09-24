@@ -2,8 +2,12 @@ import React from "react";
 
 export default function AppLogo() {
   return (
-    <div className="flex items-center gap-2 rounded-lg bg-zinc-950 px-3 py-2 text-sm font-semibold text-white">
-      Spoon
+    <div
+      className="flex size-8 items-center justify-center rounded-lg bg-brand text-sm font-bold text-brand-foreground"
+      aria-label="Spoon"
+      title="Spoon"
+    >
+      S
     </div>
   );
 }

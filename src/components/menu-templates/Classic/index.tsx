@@ -65,8 +65,6 @@ export default function Classic(props: ClassicProps) {
     );
   }
 
-  console.log({ visibleSubmenus, sections, menu });
-
   return (
     <div className="min-h-screen bg-[#F6EFE1] px-4 py-10">
       <div className="mx-auto max-w-[800px] border border-black/10 bg-[#F6EFE1] shadow-2xl shadow-black/20">

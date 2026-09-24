@@ -123,31 +123,31 @@ export default function SortableSubmenu({
   return (
     <section
       ref={submenuRef}
-      className={`relative rounded-xl border bg-slate-50 p-4 shadow-sm transition ${
+      className={`relative rounded-lg border bg-card p-4 shadow-sm transition ${
         isDragging
           ? "opacity-40"
           : closestEdge
-            ? "border-blue-300 ring-2 ring-blue-100"
-            : "border-slate-200"
+            ? "border-accent ring-2 ring-accent/20"
+            : "border-border"
       }`}
     >
       <DropIndicator edge={closestEdge} />
 
-      <header className="mb-4 flex items-center gap-3 border-b border-slate-200 pb-3">
+      <header className="mb-4 flex items-center gap-3 border-b border-border pb-3">
         <button
           ref={handleRef}
           type="button"
           aria-label={`Drag ${submenu.title}`}
-          className="cursor-grab touch-none rounded p-1 text-slate-400 hover:bg-white hover:text-slate-700 active:cursor-grabbing"
+          className="cursor-grab touch-none rounded p-1 text-muted-foreground hover:bg-muted/50 hover:text-foreground active:cursor-grabbing"
         >
           <GripVertical className="h-5 w-5" />
         </button>
 
-        <ListOrdered className="h-4 w-4 text-blue-600" />
+        <ListOrdered className="h-4 w-4 text-accent" />
 
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <h2 className="truncate font-semibold text-slate-900">
+            <h2 className="truncate font-semibold text-foreground">
               {submenu.title}
             </h2>
             <Badge tone={submenu.is_visible ? "green" : "zinc"}>
@@ -156,12 +156,12 @@ export default function SortableSubmenu({
           </div>
 
           {submenu.description && (
-            <p className="truncate text-xs text-slate-500">
+            <p className="truncate text-xs text-muted-foreground">
               {submenu.description}
             </p>
           )}
 
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-muted-foreground">
             {itemCount} {itemCount === 1 ? "item" : "items"} · position{" "}
             {submenu.order_index}
           </p>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { SearchIcon } from "lucide-react";
+import { SearchIcon, StoreIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,6 +9,8 @@ import {
   RestaurantCard,
   RestaurantCardSkeleton,
 } from "@/components/organisms/RestaurantCard";
+import { Metric } from "@/components/atoms/Metric";
+
 import { AddRestaurantDialog } from "@/components/organisms/AddRestaurantDialog";
 import { useGetAllRestaurants } from "@/hooks/services/restaurants/useGetAllRestaurants";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -45,25 +47,34 @@ const Page = () => {
   return (
     <div className="space-y-8">
       {hasRestaurant ? null : (
-        <div className="flex flex-wrap items-center justify-between gap-4">
-          <div>
-            <h1 className="font-heading text-2xl font-semibold">Restaurants</h1>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Manage your restaurants and their digital menus.
-            </p>
+        <div className="flex flex-col gap-6">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h1 className="font-heading text-2xl font-semibold">Workspace</h1>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Manage your restaurants and their digital menus.
+              </p>
+            </div>
+            <AddRestaurantDialog />
           </div>
-          <AddRestaurantDialog />
+
+          <div className="grid grid-cols-2 gap-4 sm:max-w-xl">
+            <Metric
+              label="Restaurants"
+              value={isLoading ? "—" : restaurants.length}
+            />
+          </div>
         </div>
       )}
 
       {hasRestaurant ? (
-        <div className="rounded-xl border border-dashed p-12 text-center">
-          <p className="text-sm text-muted-foreground">
+        <div className="rounded-lg border border-dashed p-12 text-center">
+          <p className="text-sm text-muted-foreground animate-pulse">
             Opening your restaurant...
           </p>
         </div>
       ) : error ? (
-        <div className="rounded-xl border border-dashed p-8 text-center">
+        <div className="rounded-lg border border-dashed p-8 text-center">
           <p className="text-sm text-muted-foreground">
             Failed to load restaurants: {error.message}
           </p>
@@ -90,21 +101,28 @@ const Page = () => {
               ))}
             </div>
           ) : filteredRestaurants.length === 0 ? (
-            <div className="rounded-xl border border-dashed p-12 text-center">
-              <h3 className="font-heading text-base font-medium">
+            <div className="flex flex-col items-center justify-center rounded-lg border border-dashed py-16 text-center shadow-xs bg-muted/20">
+              <div className="flex size-12 items-center justify-center rounded-full bg-brand/20 text-brand-foreground mb-4">
+                <StoreIcon className="size-6" />
+              </div>
+              <h3 className="font-heading text-lg font-semibold text-foreground">
                 {restaurants.length === 0
                   ? "No restaurants yet"
                   : "No restaurants found"}
               </h3>
-              <p className="mt-1 text-sm text-muted-foreground">
+              <p className="mt-1.5 text-sm text-muted-foreground max-w-sm">
                 {restaurants.length === 0
-                  ? "Create your first restaurant to start building menus."
-                  : "Try a different search term."}
+                  ? "Create your first restaurant to start building menus, managing items, and generating QR codes."
+                  : "We couldn't find any restaurants matching your search. Try a different term."}
               </p>
               {restaurants.length === 0 && (
-                <div className="mt-4">
+                <div className="mt-6">
                   <AddRestaurantDialog
-                    trigger={<Button>New restaurant</Button>}
+                    trigger={
+                      <Button size="lg" className="shadow-sm">
+                        New restaurant
+                      </Button>
+                    }
                   />
                 </div>
               )}

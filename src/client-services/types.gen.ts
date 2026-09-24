@@ -124,6 +124,18 @@ export type LoginResponseData = {
 };
 
 /**
+ * MenuConfigurationSchema
+ */
+export type MenuConfigurationSchema = {
+    /**
+     * Template Id
+     *
+     * The template id of the menu configuration
+     */
+    template_id: string;
+};
+
+/**
  * MenuCreate
  */
 export type MenuCreate = {
@@ -145,6 +157,10 @@ export type MenuCreate = {
      * Whether the menu is visible
      */
     is_visible?: boolean | null;
+    /**
+     * The configuration of the menu
+     */
+    menu_configuration?: MenuConfigurationSchema | null;
 };
 
 /**
@@ -175,6 +191,10 @@ export type MenuItemCreate = {
      * Whether the menu item is visible
      */
     is_visible?: boolean;
+    /**
+     * The status of the menu item
+     */
+    status?: MenuItemStatus | null;
     /**
      * Prices
      *
@@ -258,6 +278,10 @@ export type MenuItemResponse = {
      */
     is_visible?: boolean;
     /**
+     * The status of the menu item
+     */
+    status?: MenuItemStatus | null;
+    /**
      * Prices
      *
      * List of prices for the menu item
@@ -282,6 +306,11 @@ export type MenuItemResponse = {
 };
 
 /**
+ * MenuItemStatus
+ */
+export type MenuItemStatus = 'AVAILABLE' | 'UNAVAILABLE';
+
+/**
  * MenuItemUpdate
  */
 export type MenuItemUpdate = {
@@ -297,6 +326,10 @@ export type MenuItemUpdate = {
      * The menu item description
      */
     description?: string | null;
+    /**
+     * The status of the menu item
+     */
+    status?: MenuItemStatus | null;
     /**
      * Pricing Type
      *
@@ -323,6 +356,17 @@ export type MenuItemUpdate = {
     prices_config?: {
         [key: string]: unknown;
     } | null;
+};
+
+/**
+ * MenuPaginatedResponse
+ */
+export type MenuPaginatedResponse = {
+    /**
+     * Data
+     */
+    data: Array<MenuResponse>;
+    pagination: PaginationMeta;
 };
 
 /**
@@ -359,6 +403,10 @@ export type MenuResponse = {
      * Whether the menu is visible
      */
     is_visible?: boolean | null;
+    /**
+     * The configuration of the menu
+     */
+    menu_configuration?: MenuConfigurationSchema | null;
     /**
      * The QR code associated with this menu
      */
@@ -400,6 +448,10 @@ export type MenuResponsePublic = {
      */
     is_visible?: boolean | null;
     /**
+     * The configuration of the menu
+     */
+    menu_configuration?: MenuConfigurationSchema | null;
+    /**
      * The QR code associated with this menu
      */
     qr?: QrResponse | null;
@@ -410,47 +462,6 @@ export type MenuResponsePublic = {
      * List of submenus
      */
     submenus?: Array<SubMenuResponse>;
-};
-
-/**
- * MenuResponseWithRestaurant
- */
-export type MenuResponseWithRestaurant = {
-    /**
-     * Id
-     */
-    id: string;
-    /**
-     * Created At
-     */
-    created_at: string;
-    /**
-     * Updated At
-     */
-    updated_at: string;
-    /**
-     * Name
-     *
-     * The name of the menu
-     */
-    name: string;
-    /**
-     * Description
-     *
-     * A description of the menu
-     */
-    description?: string | null;
-    /**
-     * Is Visible
-     *
-     * Whether the menu is visible
-     */
-    is_visible?: boolean | null;
-    /**
-     * The QR code associated with this menu
-     */
-    qr?: QrResponse | null;
-    restaurant: RestaurantResponse;
 };
 
 /**
@@ -488,6 +499,10 @@ export type MenuResponseWithSubmenus = {
      */
     is_visible?: boolean | null;
     /**
+     * The configuration of the menu
+     */
+    menu_configuration?: MenuConfigurationSchema | null;
+    /**
      * The QR code associated with this menu
      */
     qr?: QrResponse | null;
@@ -521,6 +536,10 @@ export type MenuUpdate = {
      * Whether the menu is visible
      */
     is_visible?: boolean | null;
+    /**
+     * The configuration of the menu
+     */
+    menu_configuration?: MenuConfigurationSchema | null;
 };
 
 /**
@@ -839,6 +858,40 @@ export type SubMenuUpdate = {
      * Is Visible
      */
     is_visible?: boolean | null;
+};
+
+/**
+ * TemplateSchema
+ */
+export type TemplateSchema = {
+    /**
+     * Id
+     */
+    id: string;
+    /**
+     * Name
+     */
+    name: string;
+    /**
+     * Display Name
+     */
+    display_name: string;
+    /**
+     * Description
+     */
+    description: string;
+    /**
+     * Version
+     */
+    version: string;
+    /**
+     * Category
+     */
+    category: string;
+    /**
+     * Preview Image
+     */
+    preview_image?: string | null;
 };
 
 /**
@@ -1373,10 +1426,14 @@ export type GetUsersOfRestaurantApiV1RestaurantsRestaurantIdUsersGetError = GetU
 
 export type GetUsersOfRestaurantApiV1RestaurantsRestaurantIdUsersGetResponses = {
     /**
+     * Response Get Users Of Restaurant Api V1 Restaurants  Restaurant Id  Users Get
+     *
      * Successful Response
      */
-    200: unknown;
+    200: Array<UserResponse> | null;
 };
+
+export type GetUsersOfRestaurantApiV1RestaurantsRestaurantIdUsersGetResponse = GetUsersOfRestaurantApiV1RestaurantsRestaurantIdUsersGetResponses[keyof GetUsersOfRestaurantApiV1RestaurantsRestaurantIdUsersGetResponses];
 
 export type GetPublicMenuApiV1MenusPublicCodeGetData = {
     body?: never;
@@ -1416,7 +1473,16 @@ export type GetMenusApiV1MenusRestaurantIdGetData = {
          */
         restaurant_id: string;
     };
-    query?: never;
+    query?: {
+        /**
+         * Page
+         */
+        page?: number;
+        /**
+         * Page Size
+         */
+        page_size?: number;
+    };
     url: '/api/v1/menus/{restaurant_id}';
 };
 
@@ -1431,11 +1497,9 @@ export type GetMenusApiV1MenusRestaurantIdGetError = GetMenusApiV1MenusRestauran
 
 export type GetMenusApiV1MenusRestaurantIdGetResponses = {
     /**
-     * Response Get Menus Api V1 Menus  Restaurant Id  Get
-     *
      * Successful Response
      */
-    200: Array<MenuResponseWithRestaurant>;
+    200: MenuPaginatedResponse;
 };
 
 export type GetMenusApiV1MenusRestaurantIdGetResponse = GetMenusApiV1MenusRestaurantIdGetResponses[keyof GetMenusApiV1MenusRestaurantIdGetResponses];
@@ -1465,7 +1529,7 @@ export type CreateMenuApiV1MenusRestaurantIdPostResponses = {
     /**
      * Successful Response
      */
-    200: GenericResponse;
+    200: MenuResponseWithSubmenus;
 };
 
 export type CreateMenuApiV1MenusRestaurantIdPostResponse = CreateMenuApiV1MenusRestaurantIdPostResponses[keyof CreateMenuApiV1MenusRestaurantIdPostResponses];
@@ -1841,6 +1905,54 @@ export type UpdateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdPat
 };
 
 export type UpdateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdPatchResponse = UpdateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdPatchResponses[keyof UpdateMenuItemApiV1MenuItemsRestaurantIdMenuIdSubmenuIdMenuItemIdPatchResponses];
+
+export type GetAllTemplatesApiV1MenuTemplatesGetData = {
+    body?: never;
+    path?: never;
+    query?: never;
+    url: '/api/v1/menu-templates';
+};
+
+export type GetAllTemplatesApiV1MenuTemplatesGetResponses = {
+    /**
+     * Response Get All Templates Api V1 Menu Templates Get
+     *
+     * Successful Response
+     */
+    200: Array<TemplateSchema>;
+};
+
+export type GetAllTemplatesApiV1MenuTemplatesGetResponse = GetAllTemplatesApiV1MenuTemplatesGetResponses[keyof GetAllTemplatesApiV1MenuTemplatesGetResponses];
+
+export type GetTemplateByIdApiV1MenuTemplatesTemplateIdGetData = {
+    body?: never;
+    path: {
+        /**
+         * Template Id
+         */
+        template_id: string;
+    };
+    query?: never;
+    url: '/api/v1/menu-templates/{template_id}';
+};
+
+export type GetTemplateByIdApiV1MenuTemplatesTemplateIdGetErrors = {
+    /**
+     * Validation Error
+     */
+    422: HttpValidationError;
+};
+
+export type GetTemplateByIdApiV1MenuTemplatesTemplateIdGetError = GetTemplateByIdApiV1MenuTemplatesTemplateIdGetErrors[keyof GetTemplateByIdApiV1MenuTemplatesTemplateIdGetErrors];
+
+export type GetTemplateByIdApiV1MenuTemplatesTemplateIdGetResponses = {
+    /**
+     * Successful Response
+     */
+    200: TemplateSchema;
+};
+
+export type GetTemplateByIdApiV1MenuTemplatesTemplateIdGetResponse = GetTemplateByIdApiV1MenuTemplatesTemplateIdGetResponses[keyof GetTemplateByIdApiV1MenuTemplatesTemplateIdGetResponses];
 
 export type GetQrCodesQGetData = {
     body?: never;

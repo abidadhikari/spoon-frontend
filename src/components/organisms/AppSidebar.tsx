@@ -2,19 +2,17 @@
 
 import * as React from "react";
 
-import { NavUser } from "@/components/nav-user";
+import AppLogo from "@/components/atoms/AppLogo";
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { BookOpen, LayoutDashboard, Store, Users } from "lucide-react";
 import { AppSidebarGroup } from "@/components/molecules/AppSidebarGroup";
 import { useParams, usePathname, useSearchParams } from "next/navigation";
-import { RestaurantSwitcher } from "@/components/molecules/RestaurantSwitcher";
-import { useGetAllMenus } from "@/hooks/services/menus/useGetAllMenus";
+import { useGetAllMenusList } from "@/hooks/services/menus/useGetAllMenus";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { restaurantId } = useParams();
@@ -23,20 +21,23 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const isRestaurantList =
     pathname === "/dashboard" && searchParams.get("view") === "list";
 
-  const { data: menus } = useGetAllMenus({
+  const { data: menus } = useGetAllMenusList({
     restaurant_id: (restaurantId as string) ?? "",
   });
 
-  const menuItems = (menus ?? []).map((menu) => ({
+  const menuItems = menus.map((menu) => ({
     name: menu.name,
     url: `/dashboard/restaurants/${restaurantId}/menu/${menu.id}`,
     icon: <BookOpen />,
+    active: pathname.startsWith(
+      `/dashboard/restaurants/${restaurantId}/menu/${menu.id}`,
+    ),
   }));
 
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <RestaurantSwitcher />
+        <AppLogo />
       </SidebarHeader>
       <SidebarContent>
         <AppSidebarGroup
@@ -57,9 +58,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               name: "Dashboard",
               url: "/dashboard",
               icon: <LayoutDashboard />,
-              active:
-                (pathname === "/dashboard" && !isRestaurantList) ||
-                pathname.startsWith("/dashboard/restaurants"),
+              active: pathname === "/dashboard" && !isRestaurantList,
             },
 
             {
@@ -72,9 +71,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         />
         {restaurantId && <AppSidebarGroup label="Menus" items={menuItems} />}
       </SidebarContent>
-      <SidebarFooter>
-        <NavUser />
-      </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   );

@@ -6,6 +6,7 @@ import {
 import { BodyOf } from "@/types/query.type";
 import { useMutation } from "@tanstack/react-query";
 import { toast } from "sonner";
+import { extractApiError } from "@/lib/extractApiError";
 
 type BodyType = BodyOf<ResendVerificationApiV1AuthResendVerificationPostData>;
 
@@ -22,8 +23,8 @@ export const useResendVerification = () => {
     onSuccess: () => {
       toast.success("Verification email sent. Please check your inbox.");
     },
-    onError: () => {
-      toast.error("Failed to resend verification email. Please try again.");
+    onError: (error) => {
+      toast.error(extractApiError(error, "Failed to resend verification email. Please try again."));
     },
   });
 };

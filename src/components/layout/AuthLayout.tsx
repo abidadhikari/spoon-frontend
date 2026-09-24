@@ -1,11 +1,12 @@
 import React from "react";
 import Link from "next/link";
+import { getCurrentYear } from "@/lib/date";
 
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="min-h-screen flex">
       {/* Brand panel — visible on md+ */}
-      <div className="hidden md:flex md:w-[420px] lg:w-[480px] shrink-0 flex-col justify-between p-10 bg-[oklch(0.98_0.01_85)] border-r border-border">
+      <div className="hidden md:flex md:w-[420px] lg:w-[480px] shrink-0 flex-col justify-between p-10 bg-primary text-primary-foreground border-r border-border">
         <div className="flex flex-col gap-2">
           {/* Logo mark */}
           <Link href="/" aria-label="Spoon home">
@@ -17,7 +18,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
               >
                 S
               </div>
-              <span className="text-base font-semibold tracking-tight text-foreground">
+              <span className="text-base font-semibold tracking-tight text-primary-foreground">
                 Spoon
               </span>
             </div>
@@ -26,20 +27,20 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
 
         {/* Tagline block */}
         <div className="flex flex-col gap-3">
-          <p className="text-[2rem] font-semibold leading-snug tracking-tight text-foreground">
+          <p className="text-[2rem] font-semibold leading-snug tracking-tight text-primary-foreground">
             Your restaurant,
             <br />
             beautifully managed.
           </p>
-          <p className="text-sm text-muted-foreground leading-relaxed max-w-[300px]">
+          <p className="text-sm text-primary-foreground/70 leading-relaxed max-w-[300px]">
             Build menus, manage your team, and share your brand — all from one
             simple dashboard.
           </p>
         </div>
 
         {/* Footer */}
-        <p className="text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Spoon. All rights reserved.
+        <p className="text-xs text-primary-foreground/50">
+          © {getCurrentYear()} Spoon. All rights reserved.
         </p>
       </div>
 

@@ -39,7 +39,7 @@ export default function MenuItemList({
 
   if (items.length === 0) {
     return (
-      <p className="px-3 py-2 text-sm text-slate-400">
+      <p className="px-3 py-2 text-sm text-muted-foreground">
         No menu items available.
       </p>
     );

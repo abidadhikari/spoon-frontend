@@ -97,12 +97,12 @@ export default function SortableMenuItem({
   return (
     <li
       ref={itemRef}
-      className={`relative flex items-center gap-3 rounded-lg border bg-white px-3 py-3 shadow-sm transition ${
+      className={`relative flex items-center gap-3 rounded-lg border bg-card px-3 py-3 shadow-sm transition ${
         isDragging
           ? "opacity-40"
           : closestEdge
-            ? "border-blue-300 bg-blue-50"
-            : "border-slate-200"
+            ? "border-accent bg-accent/10"
+            : "border-border"
       }`}
     >
       <DropIndicator edge={closestEdge} />
@@ -111,21 +111,21 @@ export default function SortableMenuItem({
         ref={handleRef}
         type="button"
         aria-label={`Drag ${item.name}`}
-        className="cursor-grab touch-none rounded p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700 active:cursor-grabbing"
+        className="cursor-grab touch-none rounded p-1 text-muted-foreground hover:bg-muted hover:text-foreground active:cursor-grabbing"
       >
         <GripVertical className="h-4 w-4" />
       </button>
 
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-sm font-medium text-slate-700">
+          <span className="text-sm font-medium text-foreground">
             {item.name}
           </span>
           {item.pricing_type && <Badge tone="zinc">{item.pricing_type}</Badge>}
         </div>
 
         {item.description && (
-          <p className="mt-0.5 truncate text-xs text-slate-500">
+          <p className="mt-0.5 truncate text-xs text-muted-foreground">
             {item.description}
           </p>
         )}
@@ -157,7 +157,7 @@ export default function SortableMenuItem({
           type="button"
           aria-label={`Delete ${item.name}`}
           onClick={() => onRequestDelete(item)}
-          className="rounded p-1.5 text-slate-400 hover:bg-rose-50 hover:text-rose-600"
+          className="rounded p-1.5 text-muted-foreground hover:bg-rose-50 hover:text-rose-600"
         >
           <Trash2 className="h-4 w-4" />
         </button>

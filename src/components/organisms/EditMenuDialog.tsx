@@ -13,11 +13,13 @@ import {
 } from "@/components/ui/dialog";
 import { MenuForm, MenuFormValues } from "@/components/organisms/MenuForm";
 import { usePutUpdateMenu } from "@/hooks/services/menus/usePutUpdateMenu";
-import { MenuResponseWithRestaurant } from "@/client-services";
+import { MenuResponse, MenuResponseWithSubmenus } from "@/client-services";
+import { DEFAULT_MENU_TEMPLATE_ID } from "@/constants/menu-template";
+import { Pencil } from "lucide-react";
 
 type Props = {
   restaurantId: string;
-  menu: MenuResponseWithRestaurant;
+  menu: MenuResponse | MenuResponseWithSubmenus;
 };
 
 export function EditMenuDialog({ restaurantId, menu }: Props) {
@@ -31,6 +33,7 @@ export function EditMenuDialog({ restaurantId, menu }: Props) {
         name: values.name,
         description: values.description || null,
         is_visible: values.is_visible,
+        menu_configuration: { template_id: values.template_id },
       },
     });
     setOpen(false);
@@ -39,8 +42,9 @@ export function EditMenuDialog({ restaurantId, menu }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm">
-          Edit
+        <Button variant="outline" size="sm" className="gap-1.5">
+          <Pencil className="size-3.5" />
+          Edit Menu
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
@@ -57,6 +61,8 @@ export function EditMenuDialog({ restaurantId, menu }: Props) {
             name: menu.name,
             description: menu.description ?? "",
             is_visible: menu.is_visible ?? true,
+            template_id:
+              menu.menu_configuration?.template_id ?? DEFAULT_MENU_TEMPLATE_ID,
           }}
           onSubmit={handleSubmit}
         />

@@ -111,7 +111,6 @@ export function VerifyForm({ email: defaultEmail }: { email?: string }) {
           <div className="flex items-center gap-2.5">
             <CheckCircle
               className="size-5 shrink-0"
-              style={{ color: "var(--brand)" }}
             />
             <span className="text-sm font-medium text-foreground">
               Verification successful
@@ -125,10 +124,6 @@ export function VerifyForm({ email: defaultEmail }: { email?: string }) {
         <Button
           onClick={() => router.push("/login")}
           className="w-full h-9"
-          style={{
-            background: "var(--brand)",
-            color: "var(--brand-foreground)",
-          }}
         >
           Continue to sign in
         </Button>
@@ -191,10 +186,6 @@ export function VerifyForm({ email: defaultEmail }: { email?: string }) {
               type="submit"
               disabled={isLoading}
               className="w-full h-9 text-sm font-medium"
-              style={{
-                background: isLoading ? undefined : "var(--brand)",
-                color: isLoading ? undefined : "var(--brand-foreground)",
-              }}
             >
               {isLoading ? "Verifying…" : "Verify email"}
             </Button>

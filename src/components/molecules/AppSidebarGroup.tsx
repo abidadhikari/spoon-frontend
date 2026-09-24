@@ -27,7 +27,7 @@ export function AppSidebarGroup({
       <SidebarGroupLabel>{label}</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
-          <SidebarMenuItem key={item.name}>
+          <SidebarMenuItem key={item.url}>
             <SidebarMenuButton
               isActive={item.active}
               render={<Link href={item.url} />}

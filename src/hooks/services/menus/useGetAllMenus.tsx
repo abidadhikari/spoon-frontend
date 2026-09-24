@@ -1,23 +1,67 @@
 import {
   getMenusApiV1MenusRestaurantIdGet,
   GetMenusApiV1MenusRestaurantIdGetData,
-  MenuResponseWithRestaurant,
+  MenuPaginatedResponse,
+  MenuResponse,
 } from "@/client-services";
 import { QUERY_KEYS } from "@/constants/query-keys";
-import { PathOf } from "@/types/query.type";
-import { useQuery } from "@tanstack/react-query";
+import { PathOf, QueryOf } from "@/types/query.type";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
-type Payload = PathOf<GetMenusApiV1MenusRestaurantIdGetData>;
+type PathPayload = PathOf<GetMenusApiV1MenusRestaurantIdGetData>;
+type QueryPayload = QueryOf<GetMenusApiV1MenusRestaurantIdGetData>;
 
-export const useGetAllMenus = ({ restaurant_id }: Payload) => {
-  return useQuery<MenuResponseWithRestaurant[] | null | undefined>({
-    queryKey: [QUERY_KEYS.ALL_MENUS, restaurant_id],
-    enabled: !!restaurant_id,
+/**
+ * Fetches paginated menus for a restaurant.
+ * Returns the full MenuPaginatedResponse (with .data array + .pagination).
+ * Consumers should access .data for the menu list.
+ */
+export const useGetAllMenus = (
+  path: PathPayload,
+  query?: QueryPayload,
+  options?: { enabled?: boolean },
+) => {
+  const enabled =
+    options?.enabled !== undefined ? options.enabled : !!path.restaurant_id;
+
+  return useQuery<MenuPaginatedResponse | null | undefined, Error>({
+    queryKey: [
+      QUERY_KEYS.ALL_MENUS,
+      path.restaurant_id,
+      query?.page,
+      query?.page_size,
+    ],
+    enabled,
+    placeholderData: keepPreviousData,
     queryFn: async () => {
-      const response = await getMenusApiV1MenusRestaurantIdGet({
-        path: { restaurant_id },
+      const { data, error } = await getMenusApiV1MenusRestaurantIdGet({
+        path,
+        query,
       });
-      return response.data ?? [];
+      if (error) throw error as Error;
+      return data;
     },
   });
+};
+
+/**
+ * Convenience helper — returns the flat array of menus (or []).
+ * Use this where you only need the list and don't care about pagination.
+ */
+export const useGetAllMenusList = (
+  path: PathPayload,
+  options?: { enabled?: boolean },
+): {
+  data: MenuResponse[];
+  isLoading: boolean;
+  error: Error | null;
+  refetch: () => void;
+} => {
+  const result = useGetAllMenus(path, { page: 1, page_size: 100 }, options);
+  return {
+    data: result.data?.data ?? [],
+    isLoading: result.isLoading,
+    error: result.error,
+    refetch: result.refetch,
+  };
 };
